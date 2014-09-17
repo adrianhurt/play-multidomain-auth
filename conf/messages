@@ -1,0 +1,5 @@
+access.denied=Access denied!
+access.credentials.incorrect=Incorrect email or password
+error.not.unique=There is another {0} with this {1}
+error.not.exists=There is no {0} with this {1}
+passwords.not.equal=The passwords must be equal

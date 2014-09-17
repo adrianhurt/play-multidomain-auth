@@ -1,0 +1,6 @@
+@(anyOf: String*)(body: Html)(orElseBody: Html)(implicit loggedManager: Manager)
+@if(utils.silhouette.WithRole.isAuthorized(loggedManager, anyOf:_*)) {
+	@body
+} else {
+	@orElseBody
+}

@@ -1,0 +1,36 @@
+# WEB Routes
+# This file defines WEB application routes (Higher priority routes first)
+# ~~~~
+
+# Authentication pages
+GET		/signup						controllers.web.Auth.startSignUp
+POST	/signup						controllers.web.Auth.handleStartSignUp
+GET		/signup/:token				controllers.web.Auth.signUp(token: String)
+GET		/signin						controllers.web.Auth.signIn
+POST	/authenticate				controllers.web.Auth.authenticate
+GET		/signout					controllers.web.Auth.signOut
+GET		/reset						controllers.web.Auth.forgotPassword
+POST	/reset						controllers.web.Auth.handleForgotPassword
+GET		/reset/:token				controllers.web.Auth.resetPassword(token: String)
+POST	/reset/:token				controllers.web.Auth.handleResetPassword(token: String)
+
+
+# Home page
+GET     /							controllers.web.Application.index
+GET     /myaccount					controllers.web.Application.myAccount
+
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /public/*file			controllers.web.Assets.public(path="/public", file: Asset)
+GET     /lib/*file				controllers.web.Assets.lib(path="/public/lib", file: Asset)
+GET     /css/*file				controllers.web.Assets.css(path="/public/stylesheets/web", file: Asset)
+GET     /js/*file				controllers.web.Assets.js(path="/public/javascripts", file: Asset)
+GET     /img/*file				controllers.web.Assets.img(path="/public/images/web", file: Asset)
+GET     /common/css/*file		controllers.web.Assets.commonCss(path="/public/lib/common/stylesheets", file: Asset)
+GET     /common/js/*file		controllers.web.Assets.commonJs(path="/public/lib/common/javascripts", file: Asset)
+GET     /common/img/*file		controllers.web.Assets.commonImg(path="/public/lib/common/images", file: Asset)
+GET     /rsc/*file				controllers.web.Assets.rsc(path="/public/clients", file: Asset)
+
+
+->  / common.Routes

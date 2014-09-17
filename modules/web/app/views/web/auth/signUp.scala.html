@@ -1,0 +1,22 @@
+@(signUpForm: Form[User])(implicit request: RequestHeader)
+
+@import b3.vertical.fieldConstructor
+@import controllers.web.routes
+
+@default("Sign Up", tab = "signup") {
+	@tags.alertFromRequest(request, "error")
+	@b3.form(routes.Auth.handleStartSignUp) {
+		<fieldset>
+			<legend>Sign up for a new account</legend>
+			@b3.text(signUpForm("firstName"), '_label -> "First name", 'placeholder -> "John" )
+			@b3.text(signUpForm("lastName"), '_label -> "Last name", 'placeholder -> "Doe" )
+			@b3.text(signUpForm("nick"), '_label -> "Nick", 'placeholder -> "Johny" )
+			@b3.text(signUpForm("email"), '_label -> "Email", 'placeholder -> "your@email.com" )
+			@b3.password(signUpForm("password"), '_label -> "Password", 'placeholder -> "password" )
+			@b3.submit('class -> "btn btn-primary btn-block"){ Sign up }
+			<div class="post-form-opts">
+				<p>Already a member? <a href="@routes.Auth.signIn">Sign in now</a></p>
+			</div>
+		</fieldset>
+	}
+}

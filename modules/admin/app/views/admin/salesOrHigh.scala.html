@@ -1,0 +1,13 @@
+@(implicit loggedManager: Manager)
+
+@import controllers.admin.routes
+
+@views.html.admin.templates.default(title = "Sales || High", tab = "sales_or_high") {
+	
+	<img class="pull-right" src="@routes.Assets.commonImg("normal-mini.png")" style="margin-top: 10px; margin-bottom: 20px"></img>
+	
+	<h1 class="text-primary">Sales area || High level</h1>
+	
+	<h3>This is the Sales area OR High level. Only managers with <strong>'sales' OR 'high'</strong> roles can be here.</h3>
+
+}

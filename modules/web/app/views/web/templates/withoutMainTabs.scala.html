@@ -1,0 +1,17 @@
+@(title: String, tab: String = "", loggedUser: Option[User] = None, styles: Html = Html(""), scripts: Html = Html(""), modals: Html = Html(""))(content: Html)
+
+@import controllers.web.routes
+
+@navbarContent = {
+	<ul class="nav navbar-nav navbar-right">
+		@loggedUser.map { user =>
+			<li class="navbar-text">Hello @user.fullName!</li>
+			<li><a href="@routes.Auth.signOut">Sign out</a></li>
+		}.getOrElse {
+			<li class="@("active".when(tab == "signin"))"><a href="@routes.Auth.signIn">Sign in</a></li>
+			<li class="@("active".when(tab == "signup"))"><a href="@routes.Auth.startSignUp">Sign up</a></li>
+		}
+	</ul>
+}
+
+@main(title, navbarContent, styles, scripts, modals)(content)

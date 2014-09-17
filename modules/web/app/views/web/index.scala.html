@@ -1,0 +1,24 @@
+@(loggedUser: Option[User])
+
+@import controllers.web.routes
+
+@views.html.web.templates.default(title = "Home", tab = "index", loggedUser = loggedUser) {
+	
+	<img class="pull-right" src="@routes.Assets.commonImg("normal-mini.png")" style="margin-top: 10px; margin-bottom: 20px"></img>
+	
+	<h1 class="text-primary">Authentication example</h1>
+	
+	<p class="lead">
+		This is a typical web page.<br>
+		@loggedUser.map { user =>
+			You are now logged as <span class="text-success">@user.fullName</span>, so you can go to
+			<a href="@routes.Application.myAccount">My account</a> section to see your contact info.<br>
+			Of course you can <a href="@routes.Auth.signOut">sign out</a>.
+		}.getOrElse {
+			Now, you aren't logged, so you can try to <a href="@routes.Auth.signIn">sign in</a> or
+			<a href="@routes.Auth.startSignUp">sign up</a> and create your own account.<br>
+			If you don't remember your password, you also can <a href="@routes.Auth.forgotPassword">reset your password</a>
+			with the traditional email mechanism.
+		}
+	</p>
+}

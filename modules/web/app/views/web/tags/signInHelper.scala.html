@@ -1,0 +1,19 @@
+@()
+<div id="signin-helper">
+	<p class="text-info"><strong class="text-primary">Helper:</strong> click an user to fill the sign in form</p>
+	<table class="table table-striped table-hover">
+	  <thead>
+	    <tr>
+	      <th>Email</th>
+	      <th>Password</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+		@User.users.values.map { user =>
+			<tr>
+				<td class="email">@user.email</td>
+				<td class="pwd">123123</td>
+			</tr>
+		}
+	</table>
+</div>

@@ -1,0 +1,7 @@
+mail.welcome.subject=Welcome
+mail.welcome.hello=Hello {0}!
+mail.welcome.instructions=Thank you for signing up in our service. Please, simply go to the following URL to activate your account.
+
+mail.forgotpwd.subject=Reset password
+mail.forgotpwd.hello=Hello {0}!
+mail.forgotpwd.instructions=We have received a request to reset your password. Please, simply go to the following URL to reset it.

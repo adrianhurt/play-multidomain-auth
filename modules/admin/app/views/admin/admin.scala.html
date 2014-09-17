@@ -1,0 +1,13 @@
+@(implicit loggedManager: Manager)
+
+@import controllers.admin.routes
+
+@views.html.admin.templates.default(title = "Admin Area", tab = "admin") {
+	
+	<img class="pull-right" src="@routes.Assets.commonImg("normal-mini.png")" style="margin-top: 10px; margin-bottom: 20px"></img>
+	
+	<h1 class="text-primary">Admin Area</h1>
+	
+	<h3>This is the Admin Area. Only managers with <strong>'master'</strong> role can be here.</h3>
+
+}

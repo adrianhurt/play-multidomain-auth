@@ -1,0 +1,21 @@
+@(signInForm: Form[com.mohiva.play.silhouette.core.providers.Credentials])(implicit request: RequestHeader)
+
+@import b3.vertical.fieldConstructor
+@import controllers.web.routes
+
+@default("Sign In", tab = "signin") {
+	@tags.alertFromRequest(request, "error")
+	@b3.form(routes.Auth.authenticate) {
+		<fieldset>
+			<legend>Sign in with your credentials</legend>
+			@b3.text( signInForm("identifier"), '_label -> None, 'placeholder -> "your@email.com" )
+			@b3.password( signInForm("password"), '_label -> None, 'placeholder -> "password" )
+			@b3.submit('class -> "btn btn-primary btn-block"){ Sign in }
+			<div class="post-form-opts">
+				<p>Don't you have an account? <a href="@routes.Auth.startSignUp">Sign up now</a></p>
+				<p>Have you forgot your password? <a href="@routes.Auth.forgotPassword">Reset it now</a></p>
+			</div>
+		</fieldset>
+	}
+	@views.html.web.tags.signInHelper()
+}

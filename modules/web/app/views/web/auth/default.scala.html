@@ -1,0 +1,9 @@
+@(title: String, tab: String = "", loggedUser: Option[User] = None, styles: Html = Html(""), scripts: Html = Html(""), modals: Html = Html(""))(content: Html)
+
+@views.html.web.templates.withoutMainTabs(title, tab, loggedUser, styles, scripts, modals) {
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			@content
+		</div>
+	</div>
+}

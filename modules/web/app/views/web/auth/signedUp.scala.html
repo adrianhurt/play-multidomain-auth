@@ -1,0 +1,9 @@
+@(user: User)
+
+@import controllers.web.routes
+
+@default("Signed Up", tab = "signedup") {
+	<p>Thank you @user.fullName for sign up!</p>
+	<p>You have now your account available</p>
+	<a href="@routes.Application.index">Go to home</a>
+}

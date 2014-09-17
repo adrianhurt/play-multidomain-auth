@@ -1,0 +1,9 @@
+@(user: User)
+
+@import controllers.web.routes
+@import views.html.web._
+
+@default("Almost Signed Up", tab = "signup") {
+	<p>Thank you @user.fullName for sign up!</p>
+	<p>We've just send you an email to @{user.email}. Please follow its instructions to complete your new account.</p>
+}

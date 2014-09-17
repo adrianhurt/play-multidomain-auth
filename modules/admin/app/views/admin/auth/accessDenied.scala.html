@@ -1,0 +1,9 @@
+@(implicit loggedManager: Manager, request: RequestHeader)
+
+@import controllers.admin.routes
+
+@views.html.admin.templates.default("Access Denied") {
+	@tags.alertFromRequest(request, "error")
+	<h1 class="text-primary">Access denied!</h1>
+	<h3 class="text-danger">You have no privileges to be here.</h3>
+}

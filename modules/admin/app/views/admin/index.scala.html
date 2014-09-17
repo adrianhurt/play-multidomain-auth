@@ -1,0 +1,107 @@
+@(implicit loggedManager: Manager)
+
+@import views.html.admin.tags.auth._
+@import controllers.admin.routes
+
+@rolesString = @{ loggedManager.roles match {
+	case head :: Nil => head
+	case init :+ last => init.mkString(", ") + " and " + last
+}}
+
+@views.html.admin.templates.default(title = "Home", tab = "index") {
+	
+	<img class="pull-right" src="@routes.Assets.commonImg("normal-mini.png")" style="margin-top: 10px; margin-bottom: 20px"></img>
+	
+	<h1 class="text-primary">Authorization example</h1>
+	
+	<p class="lead">
+		You are now logged as a manager of this administration web page.<br>
+		Each manager has one or more roles, and each role indicates a specific area or hierarchical level.<br>
+		And you can restrict sections to those managers who match with a set of roles (using logic OR or AND, you can choose).<br>
+		The <span class="text-warning">master</span> role has always full access to everywhere.<br>
+		For example:
+	</p>
+	<ul>
+		<li><span class="text-info">social</span>: the manager works for the 'social' area.</li>
+		<li><span class="text-info">sales</span> and <span class="text-info">high</span>: the manager has a 'high' access and works for the 'sales' area.</li>
+		<li><span class="text-warning">master</span>: full access to every point of the Admin Webpage.</li>
+	</ul>
+	<p class="lead">
+		In this case, you are logged as 
+		<span class="text-success">@loggedManager.fullName</span> and your roles are:
+		<span class="text-info">@rolesString</span>
+	</p>
+	
+	<table class="table table-striped table-hover">
+	  <thead>
+	    <tr>
+	      <th>Section</th>
+	      <th>Authorization object</th>
+	      <th>Roles needed</th>
+	      <th>Are you allowed?</th>
+	      <th>Go there and check yourself</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+		<tr>
+			<td>Index</td>
+			<td>None</td>
+			<td>any</td>
+			<td><span class="glyphicon glyphicon-ok"></span></td>
+			<td><a href="@routes.Application.index">Index</a></td>
+		</tr>
+		<tr>
+			<td>Social area</td>
+			<td>WithRole("social")</td>
+			<td><span class="text-info">social</span> or <span class="text-warning">master</span></td>
+			<td>
+				@withRoleOrElse("social") {
+					<span class="glyphicon glyphicon-ok"></span>
+				}{
+					<span class="glyphicon glyphicon-remove"></span>
+				}
+			</td>
+			<td><a href="@routes.Application.social">Social area</a></td>
+		</tr>
+		<tr>
+			<td>Sales || High</td>
+			<td>WithRole("social", "high")</td>
+			<td>(<span class="text-info">sales</span> or <span class="text-info">high</span>) or <span class="text-warning">master</span></td>
+			<td>
+				@withRoleOrElse("sales", "high") {
+					<span class="glyphicon glyphicon-ok"></span>
+				}{
+					<span class="glyphicon glyphicon-remove"></span>
+				}
+			</td>
+			<td><a href="@routes.Application.salesOrHigh">Sales || High</a></td>
+		</tr>
+		<tr>
+			<td>Sales && High</td>
+			<td><span class="text-primary">WithRoles</span>("social", "high")</td>
+			<td>(<span class="text-info">sales</span> and <span class="text-info">high</span>) or <span class="text-warning">master</span></td>
+			<td>
+				@withRolesOrElse("sales", "high") {
+					<span class="glyphicon glyphicon-ok"></span>
+				}{
+					<span class="glyphicon glyphicon-remove"></span>
+				}
+			</td>
+			<td><a href="@routes.Application.salesAndHigh">Sales && High</a></td>
+		</tr>
+		<tr>
+			<td>Admin area</td>
+			<td>WithRole("master")</td>
+			<td>only <span class="text-warning">master</span></td>
+			<td>
+				@withRoleOrElse("master") {
+					<span class="glyphicon glyphicon-ok"></span>
+				}{
+					<span class="glyphicon glyphicon-remove"></span>
+				}
+			</td>
+			<td><a href="@routes.Application.admin">Admin area</a></td>
+		</tr>
+	</table>
+
+}
