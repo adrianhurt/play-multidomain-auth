@@ -17,16 +17,10 @@ object MailService {
 		}
 	}
 	def sendEmail (recipients: String*)(subject: String, bodyHtml: String, bodyText: String = "") = {
-
-		println(s"HTML:\n$bodyHtml")
-		println("\n\n\n")
-		println(s"Text:\n$bodyText")
-
 		val mail = use[MailerPlugin].email
 		mail.setFrom(from)
 		mail.setSubject(subject)
-//		mail.setRecipient(recipients: _*)
-		mail.setRecipient("adrianhurt@gmail.com")
+		mail.setRecipient(recipients: _*)
 		mail.send(bodyText, bodyHtml)
 	}
 }
