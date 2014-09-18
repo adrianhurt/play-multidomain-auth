@@ -10,7 +10,7 @@ import play.api.i18n.Messages
 import models._
 import utils.silhouette._
 import utils.silhouette.Implicits._
-import com.mohiva.play.silhouette.core.{LoginInfo, SignUpEvent, LoginEvent, LogoutEvent}
+import com.mohiva.play.silhouette.core.{SignUpEvent, LoginEvent, LogoutEvent}
 import com.mohiva.play.silhouette.core.providers.Credentials
 import com.mohiva.play.silhouette.core.exceptions.{AuthenticationException, AccessDeniedException}
 import utils.Constraints._
@@ -179,7 +179,7 @@ object Auth extends SilhouetteWebController {
 	}
 	
 	val passwordsForm = Form(tuple(
-		"password1" -> nonEmptyText.verifying(minLength(6)),
+		"password1" -> nonEmptyText(minLength = 6),
 		"password2" -> nonEmptyText
 	) verifying(Messages("passwords.not.equal"), passwords => passwords._2 == passwords._1 ))
 	

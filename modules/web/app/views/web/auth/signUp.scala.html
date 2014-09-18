@@ -8,7 +8,7 @@
 	@b3.form(routes.Auth.handleStartSignUp) {
 		<fieldset>
 			<legend>Sign up for a new account</legend>
-			@b3.text(signUpForm("firstName"), '_label -> "First name", 'placeholder -> "John" )
+			@b3.text(signUpForm("firstName"), '_label -> "First name", 'placeholder -> "John", 'autofocus -> true )
 			@b3.text(signUpForm("lastName"), '_label -> "Last name", 'placeholder -> "Doe" )
 			@b3.text(signUpForm("nick"), '_label -> "Nick", 'placeholder -> "Johny" )
 			@b3.text(signUpForm("email"), '_label -> "Email", 'placeholder -> "your@email.com" )

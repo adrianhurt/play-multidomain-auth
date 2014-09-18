@@ -8,7 +8,7 @@
 	@b3.form(routes.Auth.authenticate) {
 		<fieldset>
 			<legend>Sign in with your credentials</legend>
-			@b3.text( signInForm("identifier"), '_label -> None, 'placeholder -> "your@email.com" )
+			@b3.text( signInForm("identifier"), '_label -> None, 'placeholder -> "your@email.com", 'autofocus -> true )
 			@b3.password( signInForm("password"), '_label -> None, 'placeholder -> "password" )
 			@b3.submit('class -> "btn btn-primary btn-block"){ Sign in }
 			<div class="post-form-opts">

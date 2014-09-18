@@ -31,13 +31,13 @@ object Auth extends SilhouetteAdminController {
 	*/
     def signIn = UserAwareAction.async { implicit request =>
 		Future.successful( request.identity match {
-			case Some(user) => Redirect(routes.Application.index)
+			case Some(manager) => Redirect(routes.Application.index)
 			case None => Ok(views.html.admin.auth.signIn(signInForm))
 		})
     }
 	
 	/**
-	* Authenticates the user based on his email and password
+	* Authenticates the manager based on his email and password
 	*/
 	def authenticate = Action.async { implicit request =>
 		signInForm.bindFromRequest.fold(
@@ -45,11 +45,11 @@ object Auth extends SilhouetteAdminController {
 			credentials => {
 				credentialsProvider.authenticate(credentials).flatMap { loginInfo =>
 					identityService.retrieve(loginInfo).flatMap {
-						case Some(user) => authenticatorService.create(user).flatMap { authenticator =>
-							eventBus.publish(LoginEvent(user, request, request2lang))
+						case Some(manager) => authenticatorService.create(manager).flatMap { authenticator =>
+							eventBus.publish(LoginEvent(manager, request, request2lang))
 							authenticatorService.init(authenticator, Future.successful(Redirect(routes.Application.index)))
 						}
-						case None => Future.failed(new AuthenticationException("Couldn't find user"))
+						case None => Future.failed(new AuthenticationException("Couldn't find manager"))
 					}
 				}.recoverWith {
 					case e: AccessDeniedException => Future.successful(Redirect(routes.Auth.signIn).flashing("error" -> Messages("access.credentials.incorrect")))
@@ -62,7 +62,7 @@ object Auth extends SilhouetteAdminController {
 	// SIGN OUT
 	
 	/**
-	* Signs out the user
+	* Signs out the manager
 	*/
 	def signOut = SecuredAction.async { implicit request =>
 		eventBus.publish(LogoutEvent(request.identity, request, request2lang))
