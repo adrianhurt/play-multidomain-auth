@@ -46,11 +46,9 @@ object Common {
 	val commonDependencies = Seq(
 		cache,
 		ws,
-		"org.webjars" % "jquery" % "2.1.1",
-		"org.webjars" % "bootstrap" % "3.2.0",
-		"org.webjars" % "requirejs" % "2.1.14-1",
+		"org.webjars" % "requirejs" % "2.1.15",
 		"com.mohiva" %% "play-silhouette" % "1.1-SNAPSHOT",
-		"com.adrianhurt" %% "play-bootstrap3" % "0.1"	// Add bootstrap3 helpers and field constructors (http://play-bootstrap3.herokuapp.com/)
+		"com.adrianhurt" %% "play-bootstrap3" % "0.4-SNAPSHOT"	// Add bootstrap3 helpers and field constructors (http://play-bootstrap3.herokuapp.com/)
 		// Add here more common dependencies:
 		// jdbc,
 		// anorm,
