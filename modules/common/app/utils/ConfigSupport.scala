@@ -3,7 +3,7 @@ package utils
 import play.api.Configuration
 
 trait ConfigSupport {
-  val conf: Configuration
+  def conf: Configuration
 
   def config(path: String): Option[Configuration] = conf.getConfig(path)
   def requiredConfig(path: String): Configuration = config(path).getOrElse(confException(path))
