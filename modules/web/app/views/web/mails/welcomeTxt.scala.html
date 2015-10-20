@@ -1,6 +1,10 @@
-@(name: String, link: String)
-@Messages("mail.welcome.hello", name)
+@(name: String, link: String)(implicit messages: Messages)
+@Messages("web.mail.welcome.hello", name)
 
-@Messages("mail.welcome.instructions")
+@Messages("web.mail.welcome.prelink")
 
 @link
+
+@Messages("web.mail.welcome.postlink")
+
+@Messages("web.mail.sign")

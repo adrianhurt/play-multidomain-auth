@@ -3,30 +3,40 @@
 # ~~~~
 
 # Authentication pages
-GET     /signin					controllers.admin.Auth.signIn
-GET		/signout				controllers.admin.Auth.signOut
-POST	/authenticate			controllers.admin.Auth.authenticate
-GET     /denied					controllers.admin.Auth.accessDenied
+GET		/signin									controllers.admin.Auth.signIn
+POST	/authenticate						controllers.admin.Auth.authenticate
+GET		/signout								controllers.admin.Auth.signOut
+GET		/reset-password					controllers.admin.Auth.forgotPassword
+POST	/reset-password					controllers.admin.Auth.handleForgotPassword
+GET		/reset-password/:token	controllers.admin.Auth.resetPassword(token: String)
+POST	/reset-password/:token	controllers.admin.Auth.handleResetPassword(token: String)
+GET		/change-password				controllers.admin.Auth.changePassword
+POST	/change-password				controllers.admin.Auth.handleChangePassword
+GET		/denied									controllers.admin.Auth.accessDenied
 
 # Home page
-GET     /						controllers.admin.Application.index
-GET     /social					controllers.admin.Application.social
-GET     /sales_or_high			controllers.admin.Application.salesOrHigh
-GET     /sales_and_high			controllers.admin.Application.salesAndHigh
-GET     /admin					controllers.admin.Application.admin
+GET		/												controllers.admin.Application.index
+GET		/myaccount							controllers.admin.Application.myAccount
+GET		/social									controllers.admin.Application.social
+GET		/sales_or_high					controllers.admin.Application.salesOrHigh
+GET		/sales_and_high					controllers.admin.Application.salesAndHigh
+GET		/settings								controllers.admin.Application.settings
+
+GET		/lang/$lang<(en|es)>		controllers.admin.Application.selectLang(lang: String)
 
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /public/*file			controllers.admin.Assets.public(path="/public", file: Asset)
-GET     /lib/*file				controllers.admin.Assets.lib(path="/public/lib", file: Asset)
-GET     /css/*file				controllers.admin.Assets.css(path="/public/stylesheets/admin", file: Asset)
-GET     /js/*file				controllers.admin.Assets.js(path="/public/javascripts", file: Asset)
-GET     /img/*file				controllers.admin.Assets.img(path="/public/images/admin", file: Asset)
-GET     /common/css/*file		controllers.admin.Assets.commonCss(path="/public/lib/common/stylesheets", file: Asset)
-GET     /common/js/*file		controllers.admin.Assets.commonJs(path="/public/lib/common/javascripts", file: Asset)
-GET     /common/img/*file		controllers.admin.Assets.commonImg(path="/public/lib/common/images", file: Asset)
-GET     /rsc/*file				controllers.admin.Assets.rsc(path="/public/clients", file: Asset)
+GET		/public/*file						controllers.admin.Assets.public(path="/public", file: Asset)
+GET		/lib/*file							controllers.admin.Assets.lib(path="/public/lib", file: Asset)
+GET		/css/*file							controllers.admin.Assets.css(path="/public/stylesheets", file: Asset)
+GET		/js/*file								controllers.admin.Assets.js(path="/public/javascripts", file: Asset)
+GET		/img/*file							controllers.admin.Assets.img(path="/public/images", file: Asset)
+GET		/common/css/*file				controllers.admin.Assets.commonCss(path="/public/lib/common/stylesheets", file: Asset)
+GET		/common/js/*file				controllers.admin.Assets.commonJs(path="/public/lib/common/javascripts", file: Asset)
+GET		/common/img/*file				controllers.admin.Assets.commonImg(path="/public/lib/common/images", file: Asset)
+
+GET		/rsc/*file							controllers.admin.SharedResources.rsc(file: String)
 
 
 ->  / common.Routes

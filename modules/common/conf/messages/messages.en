@@ -1,0 +1,57 @@
+
+
+################################################################################################
+# COMMON
+
+field.firstname=First name
+field.lastname=Last name
+field.nick=Nick
+field.email=Email
+field.password=Password
+field.password.repeat=Repeat password
+field.roles=Roles
+
+submit=Submit
+reset=Reset
+back=Back
+go.index=Go to index
+
+signup=Sign up
+signup.title=Sign up for a new account
+signup.signin.question=Already a member?
+signup.signin=Sign in now
+signup.thanks=Thank you {0} for sign up!
+signup.sent=We''ve just send you an email to {0}. Please follow its instructions to complete your new account.
+signup.ready=You have now your account available
+
+signin=Sign in
+signin.title=Sign in with your credentials
+signin.rememberme=Remember me
+signin.signup.question=Don''t you have an account?
+signin.signup=Sign up now
+signin.forgot.question=Have you forgot your password?
+signin.forgot=Reset it now
+
+signout=Sign out
+
+forgot.title=Have you forgot your password?
+forgot.sent=We''ve just sent an email to {0} with the instructions to reset your password
+forgot.reset.title=Reset your password
+forgot.reseted=Your password has been reseted
+
+changepass=Change password
+changepass.title=Change your password
+changepass.field.current=Current password
+changepass.field.new=New password
+changepass.field.repeat=Repeat password
+
+auth.credentials.incorrect=Incorrect email or password
+auth.passwords.notequal=The passwords must be equal
+auth.password.changed=The password has been successfully changed
+auth.currentpwd.incorrect=The current password is incorrect
+
+
+error.unknown.title=Oops, an error occurred
+error.unknown.text=This exception has been logged with id <strong>{0}</strong>.
+error.notfound.title=Handler Not Found
+error.notfound.text=For request ''{0}''

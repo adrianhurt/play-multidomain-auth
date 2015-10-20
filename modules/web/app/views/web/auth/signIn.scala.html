@@ -1,19 +1,18 @@
-@(signInForm: Form[com.mohiva.play.silhouette.core.providers.Credentials])(implicit request: RequestHeader)
-
+@(signInForm: Form[(String, String, Boolean)])(implicit request: RequestHeader, messages: Messages)
 @import b3.vertical.fieldConstructor
 @import controllers.web.routes
-
 @default("Sign In", tab = "signin") {
 	@tags.alertFromRequest(request, "error")
 	@b3.form(routes.Auth.authenticate) {
 		<fieldset>
-			<legend>Sign in with your credentials</legend>
-			@b3.text( signInForm("identifier"), '_hiddenLabel -> "Email", 'placeholder -> "your@email.com", 'autofocus -> true )
-			@b3.password( signInForm("password"), '_hiddenLabel -> "Password", 'placeholder -> "password" )
-			@b3.submit('class -> "btn btn-primary btn-block"){ Sign in }
+			<legend>@Messages("signin.title")</legend>
+			@b3.text( signInForm("identifier"), '_hiddenLabel -> Messages("field.email"), 'placeholder -> "your@email.com", 'autofocus -> true )
+			@b3.password( signInForm("password"), '_hiddenLabel -> Messages("field.password"), 'placeholder -> Messages("field.password") )
+			@b3.checkbox( signInForm("rememberMe"), '_text -> Messages("signin.rememberme"), 'checked -> true )
+			@b3.submit('class -> "btn btn-primary btn-block"){ @Messages("signin") }
 			<div class="post-form-opts">
-				<p>Don't you have an account? <a href="@routes.Auth.startSignUp">Sign up now</a></p>
-				<p>Have you forgot your password? <a href="@routes.Auth.forgotPassword">Reset it now</a></p>
+				<p>@Messages("signin.signup.question") <a href="@routes.Auth.startSignUp">@Messages("signin.signup")</a></p>
+				<p>@Messages("signin.forgot.question") <a href="@routes.Auth.forgotPassword">@Messages("signin.forgot")</a></p>
 			</div>
 		</fieldset>
 	}

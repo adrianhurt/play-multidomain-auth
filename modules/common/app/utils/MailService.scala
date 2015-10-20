@@ -1,26 +1,29 @@
 package utils
 
-import models._
+import javax.inject.Inject
+import com.google.inject.ImplementedBy
 import play.api.Play.current
 import play.api.libs.concurrent.Akka
-import scala.concurrent.duration._
 import play.api.libs.concurrent.Execution.Implicits._
-import com.typesafe.plugin._
+import play.api.libs.mailer._
+import play.api.Configuration
+import scala.concurrent.duration._
 
-object MailService {
-	
-	val from = current.configuration.getString("mail.from").get
+@ImplementedBy(classOf[MailServiceImpl])
+trait MailService {
+  def sendEmailAsync(recipients: String*)(subject: String, bodyHtml: String, bodyText: String): Unit
+  def sendEmail(recipients: String*)(subject: String, bodyHtml: String, bodyText: String): Unit
+}
 
-	def sendEmailAsync (recipients: String*)(subject: String, bodyHtml: String, bodyText: String = "") = {
-		Akka.system.scheduler.scheduleOnce(100 milliseconds) {
-			sendEmail(recipients: _*)(subject, bodyHtml, bodyText)
-		}
-	}
-	def sendEmail (recipients: String*)(subject: String, bodyHtml: String, bodyText: String = "") = {
-		val mail = use[MailerPlugin].email
-		mail.setFrom(from)
-		mail.setSubject(subject)
-		mail.setRecipient(recipients: _*)
-		mail.send(bodyText, bodyHtml)
-	}
+class MailServiceImpl @Inject() (mailerClient: MailerClient, val conf: Configuration) extends MailService with ConfigSupport {
+
+  lazy val from = confRequiredString("play.mailer.from")
+
+  def sendEmailAsync(recipients: String*)(subject: String, bodyHtml: String, bodyText: String) = {
+    Akka.system.scheduler.scheduleOnce(100 milliseconds) {
+      sendEmail(recipients: _*)(subject, bodyHtml, bodyText)
+    }
+  }
+  def sendEmail(recipients: String*)(subject: String, bodyHtml: String, bodyText: String) =
+    mailerClient.send(Email(subject, from, recipients, Some(bodyText), Some(bodyHtml)))
 }

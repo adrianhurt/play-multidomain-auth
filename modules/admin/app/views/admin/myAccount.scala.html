@@ -1,0 +1,29 @@
+@()(implicit request: RequestHeader, manager: Manager, messages: Messages)
+
+@import controllers.admin.routes
+
+@views.html.admin.templates.default(title = "My account", tab = "myaccount") {
+	
+	@tags.alertFromRequest(request, "success")
+	
+	<h1>@Messages("admin.myaccount.title") <a class="btn btn-default btn-sm pull-right" href="@routes.Auth.changePassword">@Messages("changepass")</a></h1>
+	
+	<table class="table table-striped table-condensed">
+		<tr>
+			<td>@Messages("field.email")</td>
+			<td>@manager.email</td>
+		</tr>
+		<tr>
+			<td>@Messages("field.firstname")</td>
+			<td>@manager.firstName</td>
+		</tr>
+		<tr>
+			<td>@Messages("field.lastname")</td>
+			<td>@manager.lastName</td>
+		</tr>
+		<tr>
+			<td>@Messages("field.roles")</td>
+			<td>@manager.roles.mkString(", ")</td>
+		</tr>
+	</table>
+}

@@ -1,9 +1,6 @@
-@(user: User)
-
-@import controllers.web.routes
-
-@default("Signed Up", tab = "signedup") {
-	<p>Thank you @user.fullName for sign up!</p>
-	<p>You have now your account available</p>
-	<a href="@routes.Application.index">Go to home</a>
+@(user: User)(implicit request: RequestHeader, messages: Messages)
+@default("Signed Up", tab = "signedup", loggedUser = Some(user)) {
+	<p>@Messages("signup.thanks", user.fullName)</p>
+	<p>@Messages("signup.ready")</p>
+	<a href="@controllers.web.routes.Application.index">@Messages("go.index")</a>
 }

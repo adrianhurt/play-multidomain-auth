@@ -1,0 +1,31 @@
+
+################################################################################################
+# Web
+
+web.topbar.index=Index
+web.topbar.myaccount=My account
+web.topbar.hello=Hello {0}!
+
+web.index.title=Authorization example
+web.index.intro=This is a typical web page.
+web.index.intro.logged=You are now logged as <span class="text-success">{0}</span>, so you can go to \
+<a href="{1}">My account</a> section to see your contact info.<br>\
+Of course you can <a href="{2}">sign out</a>.
+web.index.intro.notlogged=Now, you aren''t logged, so you can try to <a href="{0}">sign in</a> or <a href="{1}">sign up</a> and create your own account.<br>\
+If you don''t remember your password, you also can <a href="{2}">reset your password</a> with the traditional email mechanism.
+
+web.myaccount.title=My account
+
+web.auth.user.notexists=There is no user with this email
+web.auth.user.notunique=There is another user with this email
+
+web.mail.welcome.subject=Welcome to MyWeb! Please confirm your account
+web.mail.welcome.hello=Welcome {0}!
+web.mail.welcome.prelink=Thanks for signing up for this great webpage! Please verify your email address by clicking the link below.
+web.mail.welcome.postlink=Note that this link will expire in 24 hours if it''s not activated.
+
+web.mail.forgotpwd.subject=Reset your MyWeb password
+web.mail.forgotpwd.prelink=Someone (hopefully you) has requested a password reset for your MyWeb account. Follow the link below to set a new password:
+web.mail.forgotpwd.postlink=Note that this link will expire in 24 hours. If you don''t wish to reset your password, disregard this email and no action will be taken.
+
+web.mail.sign=Team MyWeb

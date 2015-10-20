@@ -1,23 +1,35 @@
-@(title: String, tab: String = "", loggedUser: Option[User] = None, styles: Html = Html(""), scripts: Html = Html(""), modals: Html = Html(""))(content: Html)
+@(title: String, withMainTabs: Boolean = true, tab: String = "", loggedUser: Option[User] = None, styles: Html = Html(""), scripts: Html = Html(""), modals: Html = Html(""))(content: Html)(implicit messages: Messages)
 
 @import controllers.web.routes
 
+@displayToggleLang = {
+	@if(messages.lang.code == "en") {
+		<li><a href="@routes.Application.selectLang("es")">Español</a></li>
+	} else {
+		<li><a href="@routes.Application.selectLang("en")">English</a></li>
+	}
+}
+
 @navbarContent = {
-	<ul class="nav navbar-nav">
-		<li class="@("active".when(tab == "index"))"><a href="@routes.Application.index">Index</a></li>
-		@if(loggedUser.isDefined) {
-			<li class="@("active".when(tab == "myaccount"))"><a href="@routes.Application.myAccount">My account</a></li>
-		} else {
-			<li class="disabled"><a>My account</a></li>
-		}
-	</ul>
+	@if(withMainTabs) {
+		<ul class="nav navbar-nav">
+			<li class="@("active".when(tab == "index"))"><a href="@routes.Application.index">@Messages("web.topbar.index")</a></li>
+			@if(loggedUser.isDefined) {
+				<li class="@("active".when(tab == "myaccount"))"><a href="@routes.Application.myAccount">@Messages("web.topbar.myaccount")</a></li>
+			} else {
+				<li class="disabled"><a>@Messages("web.topbar.myaccount")</a></li>
+			}
+		</ul>
+	}
 	<ul class="nav navbar-nav navbar-right">
 		@loggedUser.map { user =>
-			<li class="navbar-text">Hello @user.fullName!</li>
-			<li><a href="@routes.Auth.signOut">Sign out</a></li>
+			<li class="navbar-text">@Messages("web.topbar.hello", user.fullName)</li>
+			@displayToggleLang
+			<li><a href="@routes.Auth.signOut">@Messages("signout")</a></li>
 		}.getOrElse {
-			<li class="@("active".when(tab == "signin"))"><a href="@routes.Auth.signIn">Sign in</a></li>
-			<li class="@("active".when(tab == "signup"))"><a href="@routes.Auth.startSignUp">Sign up</a></li>
+			@displayToggleLang
+			<li class="@("active".when(tab == "signin"))"><a href="@routes.Auth.signIn">@Messages("signin")</a></li>
+			<li class="@("active".when(tab == "signup"))"><a href="@routes.Auth.startSignUp">@Messages("signup")</a></li>
 		}
 	</ul>
 }

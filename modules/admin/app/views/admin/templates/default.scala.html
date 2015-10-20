@@ -1,11 +1,11 @@
-@(title: String, tab: String = "", styles: Html = Html(""), scripts: Html = Html(""), modals: Html = Html(""))(content: Html)(implicit loggedManager: Manager)
+@(title: String, tab: String = "", styles: Html = Html(""), scripts: Html = Html(""), modals: Html = Html(""))(content: Html)(implicit loggedManager: Manager, messages: Messages)
 
 @import views.html.admin.tags.auth._
 @import controllers.admin.routes
 
 @navbarContent = {
 	<ul class="nav navbar-nav">
-		<li class="@("active".when(tab == "index"))"><a href="@routes.Application.index">Index</a></li>
+		<li class="@("active".when(tab == "index"))"><a href="@routes.Application.index">@Messages("admin.topbar.index")</a></li>
 		@withRole("social") {
 			<li class="@("active".when(tab == "social"))"><a href="@routes.Application.social">Social area</a></li>
 		}
@@ -16,12 +16,18 @@
 			<li class="@("active".when(tab == "sales_and_high"))"><a href="@routes.Application.salesAndHigh">Sales && High</a></li>
 		}
 		@withRole("master") {
-			<li class="@("active".when(tab == "admin"))"><a href="@routes.Application.admin">Admin area</a></li>
+			<li class="@("active".when(tab == "settings"))"><a href="@routes.Application.settings">Settings area</a></li>
 		}
+		<li class="@("active".when(tab == "myaccount"))"><a href="@routes.Application.myAccount">@Messages("admin.topbar.myaccount")</a></li>
 	</ul>
 	<ul class="nav navbar-nav navbar-right">
-		<li class="navbar-text">Hello <span class="text-success">@loggedManager.firstName</span>! Your roles are: <span class="text-info">@loggedManager.roles.mkString(", ")</span></li>
-		<li><a href="@routes.Auth.signOut">Sign out</a></li>
+		<li class="navbar-text">@Html(Messages("admin.topbar.hello", s"""<span class="text-success">${loggedManager.firstName}</span>""", s"""<span class="text-info">${loggedManager.roles.mkString(", ")}</span>"""))</li>
+		@if(messages.lang.code == "en") {
+			<li><a href="@routes.Application.selectLang("es")">Español</a></li>
+		} else {
+			<li><a href="@routes.Application.selectLang("en")">English</a></li>
+		}
+		<li><a href="@routes.Auth.signOut">@Messages("signout")</a></li>
 	</ul>
 }
 

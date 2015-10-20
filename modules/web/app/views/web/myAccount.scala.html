@@ -1,28 +1,28 @@
-@(user: User)
+@()(implicit request: RequestHeader, user: User, messages: Messages)
 
 @import controllers.web.routes
 
 @views.html.web.templates.default(title = "My account", tab = "myaccount", loggedUser = Some(user)) {
 	
-	<img class="pull-right" src="@routes.Assets.commonImg("normal-mini.png")" style="margin-top: 10px; margin-bottom: 20px"></img>
+	@tags.alertFromRequest(request, "success")
 	
-	<h1>My account</h1>
+	<h1>@Messages("web.myaccount.title") <a class="btn btn-default btn-sm pull-right" href="@routes.Auth.changePassword">@Messages("changepass")</a></h1>
 	
 	<table class="table table-striped table-condensed">
 		<tr>
-			<td>Email</td>
+			<td>@Messages("field.email")</td>
 			<td>@user.email</td>
 		</tr>
 		<tr>
-			<td>Nick</td>
+			<td>@Messages("field.nick")</td>
 			<td>@user.nick</td>
 		</tr>
 		<tr>
-			<td>First name</td>
+			<td>@Messages("field.firstname")</td>
 			<td>@user.firstName</td>
 		</tr>
 		<tr>
-			<td>Last name</td>
+			<td>@Messages("field.lastname")</td>
 			<td>@user.lastName</td>
 		</tr>
 	</table>

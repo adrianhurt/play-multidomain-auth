@@ -1,24 +1,23 @@
-@(loggedUser: Option[User])
+@()(implicit request: RequestHeader, maybeUser: Option[User], messages: Messages)
 
 @import controllers.web.routes
 
-@views.html.web.templates.default(title = "Home", tab = "index", loggedUser = loggedUser) {
+@views.html.web.templates.default(title = "Home", tab = "index", loggedUser = maybeUser) {
 	
-	<img class="pull-right" src="@routes.Assets.commonImg("normal-mini.png")" style="margin-top: 10px; margin-bottom: 20px"></img>
+	<div class="pull-right">
+		<img src="@routes.Assets.commonImg("play.svg")" width="250" style="margin-top: 10px; margin-bottom: 20px"></img>
+		<p class="text-right">Conf file: @play.api.Play.current.configuration.getString("this.file")</p>
+	</div>
+	<img class="pull-right" src="@routes.SharedResources.rsc("example.png")" style="margin: 10px 30px 0 0"></img>
 	
-	<h1 class="text-primary">Authentication example</h1>
+	<h1 class="text-primary">@Messages("web.index.title")</h1>
 	
 	<p class="lead">
-		This is a typical web page.<br>
-		@loggedUser.map { user =>
-			You are now logged as <span class="text-success">@user.fullName</span>, so you can go to
-			<a href="@routes.Application.myAccount">My account</a> section to see your contact info.<br>
-			Of course you can <a href="@routes.Auth.signOut">sign out</a>.
+		@Messages("web.index.intro")<br>
+		@maybeUser.map { user =>
+			@Html(Messages("web.index.intro.logged", user.fullName, routes.Application.myAccount, routes.Auth.signOut))
 		}.getOrElse {
-			Now, you aren't logged, so you can try to <a href="@routes.Auth.signIn">sign in</a> or
-			<a href="@routes.Auth.startSignUp">sign up</a> and create your own account.<br>
-			If you don't remember your password, you also can <a href="@routes.Auth.forgotPassword">reset your password</a>
-			with the traditional email mechanism.
+			@Html(Messages("web.index.intro.notlogged", routes.Auth.signIn, routes.Auth.startSignUp, routes.Auth.forgotPassword))
 		}
 	</p>
 }

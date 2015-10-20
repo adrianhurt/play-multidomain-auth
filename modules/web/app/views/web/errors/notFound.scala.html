@@ -1,0 +1,5 @@
+@(request: RequestHeader)(implicit messages: Messages)
+@views.html.web.templates.main("WEB Handler Not Found") {
+  <h1>WEB @Messages("error.notfound.title")</h1>
+	<p>@Messages("error.notfound.text", request.method + " " + request.uri)</p>
+}

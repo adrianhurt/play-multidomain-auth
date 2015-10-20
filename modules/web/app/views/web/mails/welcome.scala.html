@@ -1,9 +1,11 @@
-@(name: String, link: String)
+@(name: String, link: String)(implicit messages: Messages)
 <html>
 <head><meta charset="utf-8"></head>
 <body>
-	<p>@Messages("mail.welcome.hello", name)</p>
-	<p>@Messages("mail.welcome.instructions")</p>
+	<p>@Messages("web.mail.welcome.hello", name)</p>
+	<p>@Messages("web.mail.welcome.prelink")</p>
 	<a href="@link">@link</a>
+	<p>@Messages("web.mail.welcome.postlink")</p>
+	<p>@Messages("web.mail.sign")</p>
 </body>
 </html>

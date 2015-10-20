@@ -1,0 +1,41 @@
+
+################################################################################################
+# Admin
+
+admin.and=and
+admin.or=or
+admin.only=only
+
+admin.topbar.index=Index
+admin.topbar.myaccount=My account
+admin.topbar.hello=Hello {0}! Your roles are: {1}
+
+admin.index.title=Authorization example
+admin.index.intro=You are now logged as a manager of this administration web page.<br>\
+Each manager has one or more roles, and each role indicates a specific area or hierarchical level.<br>\
+You can restrict sections to those managers who match with a set of roles (using logic OR or AND, you can choose).<br>\
+The <span class="text-warning">master</span> role has always full access to everywhere.
+admin.index.example=For example:
+admin.index.example.social=the manager works for the ''social'' area.
+admin.index.example.sales_high=the manager has a ''high'' access and works for the ''sales'' area.
+admin.index.example.master=full access to every point of the Admin Webpage.
+admin.index.auth.status=In this case, you are logged as {0} and your roles are: {1}
+admin.index.table.section=Section
+admin.index.table.authobject=Authorization object
+admin.index.table.roles=Roles needed
+admin.index.table.allowed=Are you allowed?
+admin.index.table.go=Go there and check yourself
+
+admin.myaccount.title=My account
+
+admin.denied.title=Access denied!
+admin.denied.text=You have no privileges to be here.
+
+admin.auth.manager.notexists=There is no manager with this email
+
+
+admin.mail.forgotpwd.subject=Reset your Admin MyWeb password
+admin.mail.forgotpwd.prelink=Someone (hopefully you) has requested a password reset for your Admin MyWeb account. Follow the link below to set a new password:
+admin.mail.forgotpwd.postlink=Note that this link will expire in 24 hours. If you don''t wish to reset your password, disregard this email and no action will be taken.
+
+admin.mail.sign=Team Admin MyWeb
