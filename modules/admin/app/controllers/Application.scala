@@ -4,7 +4,6 @@ import models._
 import utils.silhouette._
 import play.api._
 import play.api.mvc._
-import play.api.Play.current
 import play.api.i18n.{ MessagesApi, Messages, Lang }
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits._
