@@ -29,5 +29,5 @@ Also check my other projects:
 
 * [Play Multidomain Seed [Play 2.4 - Scala]](https://github.com/adrianhurt/play-multidomain-seed)
 * [Play Silhouette Credentials Seed [Play 2.4 - Scala]](https://github.com/adrianhurt/play-silhouette-credentials-seed)
-* [Play-Bootstrap3 - Play library for Bootstrap 3 [Scala & Java]](http://play-bootstrap3.herokuapp.com)
+* [Play-Bootstrap - Play library for Bootstrap [Scala & Java]](https://adrianhurt.github.io/play-bootstrap)
 * [Play API REST Template [Play 2.4 - Scala]](https://github.com/adrianhurt/play-api-rest-seed)

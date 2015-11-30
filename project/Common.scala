@@ -56,7 +56,7 @@ object Common {
     specs2 % Test,
     "org.webjars" % "requirejs" % "2.1.19",
     "com.mohiva" %% "play-silhouette" % "3.0.0",
-    "com.adrianhurt" %% "play-bootstrap3" % "0.4.4-P24",	// Add bootstrap3 helpers and field constructors (http://play-bootstrap3.herokuapp.com/)
+    "com.adrianhurt" %% "play-bootstrap3" % "0.4.5-P24",	// Add Bootstrap helpers and field constructors (https://adrianhurt.github.io/play-bootstrap/)
     "com.typesafe.play" %% "play-mailer" % "3.0.1"
     // Add here more common dependencies:
     // jdbc,
