@@ -8,7 +8,8 @@ class VirtualHostRequestHandler @Inject() (
   configuration: HttpConfiguration,
   filters: HttpFilters,
   webRouter: web.Routes,
-  adminRouter: admin.Routes) extends DefaultHttpRequestHandler(
+  adminRouter: admin.Routes
+) extends DefaultHttpRequestHandler(
   webRouter, errorHandler, configuration, filters
 ) {
 

@@ -2,7 +2,6 @@ import sbt._
 import Keys._
 import play.sbt.PlayImport._
 import play.sbt.routes.RoutesKeys.routesGenerator
-import play.routes.compiler.InjectedRoutesGenerator
 import com.typesafe.sbt.web.SbtWeb.autoImport.{Assets, pipelineStages}
 import com.typesafe.sbt.less.Import.LessKeys
 import com.typesafe.sbt.rjs.Import.{rjs, RjsKeys}
@@ -19,7 +18,6 @@ object Common {
     organization := "com.myweb",
     version := "1.0-SNAPSHOT",
     scalaVersion := "2.11.7",
-    routesGenerator := InjectedRoutesGenerator,
     doc in Compile <<= target.map(_ / "none"),
     scalacOptions ++= Seq("-feature", "-deprecation", "-unchecked", "-language:reflectiveCalls", "-language:postfixOps", "-language:implicitConversions"),
     resolvers ++= Seq(
@@ -54,10 +52,16 @@ object Common {
     cache,
     ws,
     specs2 % Test,
-    "org.webjars" % "requirejs" % "2.1.19",
-    "com.mohiva" %% "play-silhouette" % "3.0.0",
-    "com.adrianhurt" %% "play-bootstrap3" % "0.4.5-P24",	// Add Bootstrap helpers and field constructors (https://adrianhurt.github.io/play-bootstrap/)
-    "com.typesafe.play" %% "play-mailer" % "3.0.1"
+    "org.webjars" % "requirejs" % "2.3.1",
+	  "com.adrianhurt" %% "play-bootstrap" % "1.1-P25-B3",	// Add bootstrap helpers and field constructors (http://adrianhurt.github.io/play-bootstrap/)
+    "com.mohiva" %% "play-silhouette" % "4.0.0",
+    "com.mohiva" %% "play-silhouette-password-bcrypt" % "4.0.0",
+    "com.mohiva" %% "play-silhouette-persistence" % "4.0.0",
+    "com.mohiva" %% "play-silhouette-crypto-jca" % "4.0.0",
+    "com.mohiva" %% "play-silhouette-testkit" % "4.0.0" % "test",
+    "net.codingwell" %% "scala-guice" % "4.0.1",
+    "com.iheart" %% "ficus" % "1.2.6",
+    "com.typesafe.play" %% "play-mailer" % "5.0.0"
     // Add here more common dependencies:
     // jdbc,
     // anorm,

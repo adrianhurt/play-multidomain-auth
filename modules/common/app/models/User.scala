@@ -1,7 +1,7 @@
 package models
 
 import utils.silhouette.IdentitySilhouette
-import com.mohiva.play.silhouette.impl.util.BCryptPasswordHasher
+import com.mohiva.play.silhouette.password.BCryptPasswordHasher
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -12,7 +12,8 @@ case class User(
     password: String,
     nick: String,
     firstName: String,
-    lastName: String) extends IdentitySilhouette {
+    lastName: String
+) extends IdentitySilhouette {
   def key = email
   def fullName: String = firstName + " " + lastName
 }
@@ -24,7 +25,6 @@ object User {
   )
 
   def findByEmail(email: String): Future[Option[User]] = Future.successful(users.find(_._2.email == email).map(_._2))
-  //	def findByEmailMap[A] (email: String)(f: User => A): Future[Option[A]] = findByEmail(email).map(_.map(f))
 
   def save(user: User): Future[User] = {
     // A rudimentary auto-increment feature...

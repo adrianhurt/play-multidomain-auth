@@ -50,6 +50,8 @@ auth.passwords.notequal=The passwords must be equal
 auth.password.changed=The password has been successfully changed
 auth.currentpwd.incorrect=The current password is incorrect
 
+denied.title=Access denied!
+denied.text=You have no privileges to be here.
 
 error.unknown.title=Oops, an error occurred
 error.unknown.text=This exception has been logged with id <strong>{0}</strong>.

@@ -1,19 +1,21 @@
 import play.api.http.DefaultHttpErrorHandler
-import com.mohiva.play.silhouette.api.SecuredErrorHandler
+import com.mohiva.play.silhouette.api.actions.{ SecuredErrorHandler, UnsecuredErrorHandler }
 import play.api._
 import play.api.mvc._
-import play.api.i18n.Messages
+import play.api.mvc.Results._
 import play.api.routing.Router
 import scala.concurrent.Future
-import javax.inject._
+import javax.inject.{ Singleton, Inject, Provider }
 
+@Singleton
 class ErrorHandler @Inject() (
     env: Environment,
     config: Configuration,
     sourceMapper: OptionalSourceMapper,
     router: Provider[Router],
     webErrorHandler: web.ErrorHandler,
-    adminErrorHandler: admin.ErrorHandler) extends DefaultHttpErrorHandler(env, config, sourceMapper, router) with SecuredErrorHandler {
+    adminErrorHandler: admin.ErrorHandler
+) extends DefaultHttpErrorHandler(env, config, sourceMapper, router) with SecuredErrorHandler with UnsecuredErrorHandler {
 
   /*
 	* Gets the subdomain: "admin" o "www"
@@ -21,15 +23,15 @@ class ErrorHandler @Inject() (
   private def getSubdomain(request: RequestHeader) = request.domain.replaceFirst("[\\.]?[^\\.]+[\\.][^\\.]+$", "")
 
   // 401 - Unauthorized
-  override def onNotAuthenticated(request: RequestHeader, messages: Messages) = getSubdomain(request) match {
-    case "admin" => adminErrorHandler.onNotAuthenticated(request, messages)
-    case _ => webErrorHandler.onNotAuthenticated(request, messages)
+  override def onNotAuthenticated(implicit request: RequestHeader) = getSubdomain(request) match {
+    case "admin" => adminErrorHandler.onNotAuthenticated(request)
+    case _ => webErrorHandler.onNotAuthenticated(request)
   }
 
   // 403 - Forbidden
-  override def onNotAuthorized(request: RequestHeader, messages: Messages) = getSubdomain(request) match {
-    case "admin" => adminErrorHandler.onNotAuthorized(request, messages)
-    case _ => webErrorHandler.onNotAuthorized(request, messages)
+  override def onNotAuthorized(implicit request: RequestHeader) = getSubdomain(request) match {
+    case "admin" => adminErrorHandler.onNotAuthorized(request)
+    case _ => webErrorHandler.onNotAuthorized(request)
   }
 
   // 404 - page not found error
@@ -44,4 +46,17 @@ class ErrorHandler @Inject() (
     case _ => webErrorHandler.onProdServerError(request, exception)
   }
 
+}
+
+/**
+ * The Guice module which wires Error Handler for Silhouette.
+ */
+import com.google.inject.AbstractModule
+import net.codingwell.scalaguice.ScalaModule
+
+class RootSilhouetteErrorHandlerModule extends AbstractModule with ScalaModule {
+  def configure() {
+    bind[SecuredErrorHandler].to[ErrorHandler]
+    bind[UnsecuredErrorHandler].to[ErrorHandler]
+  }
 }

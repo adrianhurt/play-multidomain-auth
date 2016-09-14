@@ -1,7 +1,7 @@
 package models
 
 import utils.silhouette.IdentitySilhouette
-import com.mohiva.play.silhouette.impl.util.BCryptPasswordHasher
+import com.mohiva.play.silhouette.password.BCryptPasswordHasher
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -17,7 +17,8 @@ case class Manager(
 	Ex: ("social") -> the manager works for the 'social' area.
 	Ex: ("high", "sales") -> the manager has a 'high' access and works for the 'sales' area.
 	*/
-    roles: Seq[String]) extends IdentitySilhouette {
+    roles: Seq[String]
+) extends IdentitySilhouette {
   def key = email
   def fullName: String = firstName + " " + lastName
 }
@@ -32,7 +33,6 @@ object Manager {
   )
 
   def findByEmail(email: String): Future[Option[Manager]] = Future.successful(managers.find(_._2.email == email).map(_._2))
-  //	def findByEmailMap[A] (email: String)(f: Manager => A): Future[Option[A]] = findByEmail(email).map(_.map(f))
 
   def save(manager: Manager): Future[Manager] = {
     // A rudimentary auto-increment feature...

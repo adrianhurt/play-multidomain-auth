@@ -2,7 +2,7 @@ package utils.silhouette
 
 import models.User
 import com.mohiva.play.silhouette.api.util.PasswordInfo
-import com.mohiva.play.silhouette.impl.daos.DelegableAuthInfoDAO
+import com.mohiva.play.silhouette.persistence.daos.DelegableAuthInfoDAO
 import com.mohiva.play.silhouette.api.LoginInfo
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global

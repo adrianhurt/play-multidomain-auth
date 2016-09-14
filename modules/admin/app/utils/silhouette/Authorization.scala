@@ -13,7 +13,7 @@ import scala.concurrent.Future
  * Ex: WithRole("high", "sales") => only managers with roles "high" OR "sales" (or "master") are allowed.
  */
 case class WithRole(anyOf: String*) extends Authorization[Manager, CookieAuthenticator] {
-  def isAuthorized[A](manager: Manager, authenticator: CookieAuthenticator)(implicit r: Request[A], m: Messages) = Future.successful {
+  def isAuthorized[A](manager: Manager, authenticator: CookieAuthenticator)(implicit r: Request[A]) = Future.successful {
     WithRole.isAuthorized(manager, anyOf: _*)
   }
 }
@@ -28,7 +28,7 @@ object WithRole {
  * Ex: Restrict("high", "sales") => only managers with roles "high" AND "sales" (or "master") are allowed.
  */
 case class WithRoles(allOf: String*) extends Authorization[Manager, CookieAuthenticator] {
-  def isAuthorized[A](manager: Manager, authenticator: CookieAuthenticator)(implicit r: Request[A], m: Messages) = Future.successful {
+  def isAuthorized[A](manager: Manager, authenticator: CookieAuthenticator)(implicit r: Request[A]) = Future.successful {
     WithRoles.isAuthorized(manager, allOf: _*)
   }
 }
