@@ -3,7 +3,7 @@
 @import controllers.admin.routes
 @default("Sign In") {
 	@tags.alertFromRequest(request, "error")
-	@b3.form(routes.Auth.authenticate) {
+	@b3.formCSRF(routes.Auth.authenticate) {
 		<fieldset>
 			<legend>@Messages("signin.title")</legend>
 			@b3.text( signInForm("identifier"), '_hiddenLabel -> Messages("field.email"), 'placeholder -> "your@email.com", 'autofocus -> true )

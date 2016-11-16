@@ -12,7 +12,6 @@ GET		/reset-password/:token	controllers.admin.Auth.resetPassword(token: String)
 POST	/reset-password/:token	controllers.admin.Auth.handleResetPassword(token: String)
 GET		/change-password				controllers.admin.Auth.changePassword
 POST	/change-password				controllers.admin.Auth.handleChangePassword
-GET		/denied									controllers.admin.Auth.accessDenied
 
 # Home page
 GET		/												controllers.admin.Application.index

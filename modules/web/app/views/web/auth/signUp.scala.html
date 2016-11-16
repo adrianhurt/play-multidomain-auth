@@ -3,7 +3,7 @@
 @import controllers.web.routes
 @default("Sign Up", tab = "signup") {
 	@tags.alertFromRequest(request, "error")
-	@b3.form(routes.Auth.handleStartSignUp) {
+	@b3.formCSRF(routes.Auth.handleStartSignUp) {
 		<fieldset>
 			<legend>@Messages("signup.title")</legend>
 			@b3.text(signUpForm("firstName"), '_label -> Messages("field.firstname"), 'placeholder -> "John", 'autofocus -> true )
