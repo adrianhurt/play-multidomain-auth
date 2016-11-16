@@ -23,6 +23,7 @@ object Common {
     resolvers ++= Seq(
       "Scalaz Bintray Repo" at "https://dl.bintray.com/scalaz/releases",
       "Atlassian Releases" at "https://maven.atlassian.com/public/",
+      Resolver.jcenterRepo,
       Resolver.sonatypeRepo("snapshots")
     )
   )
@@ -60,7 +61,7 @@ object Common {
     "com.mohiva" %% "play-silhouette-crypto-jca" % "4.0.0",
     "com.mohiva" %% "play-silhouette-testkit" % "4.0.0" % "test",
     "net.codingwell" %% "scala-guice" % "4.0.1",
-    "com.iheart" %% "ficus" % "1.2.6",
+    "com.iheart" %% "ficus" % "1.3.2",
     "com.typesafe.play" %% "play-mailer" % "5.0.0"
     // Add here more common dependencies:
     // jdbc,
