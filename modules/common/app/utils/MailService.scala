@@ -8,14 +8,10 @@ import play.api.libs.mailer._
 import play.api.Configuration
 import net.ceedubs.ficus.Ficus._
 import scala.concurrent.duration._
-import javax.inject.Inject
+import javax.inject.{ Singleton, Inject }
 
-trait MailService {
-  def sendEmailAsync(recipients: String*)(subject: String, bodyHtml: String, bodyText: String): Unit
-  def sendEmail(recipients: String*)(subject: String, bodyHtml: String, bodyText: String): Unit
-}
-
-class MailServiceImpl @Inject() (mailerClient: MailerClient, system: ActorSystem, conf: Configuration) extends MailService {
+@Singleton
+class MailService @Inject() (mailerClient: MailerClient, system: ActorSystem, conf: Configuration) {
 
   lazy val from = conf.underlying.as[String]("play.mailer.from")
 

@@ -11,7 +11,6 @@ import com.mohiva.play.silhouette.impl.authenticators.{ CookieAuthenticator, Coo
 import com.mohiva.play.silhouette.impl.util.{ SecureRandomIDGenerator, DefaultFingerprintGenerator }
 import com.mohiva.play.silhouette.password.BCryptPasswordHasher
 import models.User
-import utils.{ MailService, MailServiceImpl }
 import net.ceedubs.ficus.Ficus._
 import net.ceedubs.ficus.readers.ArbitraryTypeReader._
 import play.api.Configuration
@@ -26,7 +25,6 @@ class CommonSilhouetteModule extends AbstractModule with ScalaModule {
    * Configures the module.
    */
   def configure() {
-    bind[MailService].to[MailServiceImpl]
     bind[IDGenerator].toInstance(new SecureRandomIDGenerator())
     bind[PasswordHasher].toInstance(new BCryptPasswordHasher())
     bind[FingerprintGenerator].toInstance(new DefaultFingerprintGenerator(false))

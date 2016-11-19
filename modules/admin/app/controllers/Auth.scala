@@ -18,7 +18,6 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.validation.Constraints._
 import play.api.i18n.{ MessagesApi, Messages }
-import utils.MailService
 import utils.admin.Mailer
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits._
@@ -37,14 +36,13 @@ class Auth @Inject() (
     @Named("admin-credentials-provider") credentialsProvider: CredentialsProvider,
     tokenService: MailTokenService[MailTokenManager],
     passwordHasherRegistry: PasswordHasherRegistry,
-    mailService: MailService,
+    mailer: Mailer,
     conf: Configuration,
     clock: Clock
 ) extends AdminController {
 
   // UTILITIES
 
-  implicit val ms = mailService
   val passwordValidation = nonEmptyText(minLength = 6)
   def notFoundDefault(implicit request: RequestHeader) = Future.successful(NotFound(views.html.admin.errors.notFound(request)))
 
@@ -149,7 +147,7 @@ class Auth @Inject() (
         case Some(_) => {
           val token = MailTokenManager(email)
           tokenService.create(token).map { _ =>
-            Mailer.forgotPassword(email, link = routes.Auth.resetPassword(token.id).absoluteURL())
+            mailer.forgotPassword(email, link = routes.Auth.resetPassword(token.id).absoluteURL())
             Ok(viewsAuth.forgotPasswordSent(email))
           }
         }
