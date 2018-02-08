@@ -16,7 +16,7 @@ class PasswordInfoWebDAO extends DelegableAuthInfoDAO[PasswordInfo] {
   def find(loginInfo: LoginInfo): Future[Option[PasswordInfo]] =
     User.findByEmail(loginInfo).map {
       case Some(user) if user.emailConfirmed => Some(user.password)
-      case _ => None
+      case _                                 => None
     }
 
   def remove(loginInfo: LoginInfo): Future[Unit] = User.remove(loginInfo)
@@ -24,7 +24,7 @@ class PasswordInfoWebDAO extends DelegableAuthInfoDAO[PasswordInfo] {
   def save(loginInfo: LoginInfo, authInfo: PasswordInfo): Future[PasswordInfo] =
     find(loginInfo).flatMap {
       case Some(_) => update(loginInfo, authInfo)
-      case None => add(loginInfo, authInfo)
+      case None    => add(loginInfo, authInfo)
     }
 
   def update(loginInfo: LoginInfo, authInfo: PasswordInfo): Future[PasswordInfo] =

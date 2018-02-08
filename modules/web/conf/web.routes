@@ -3,38 +3,38 @@
 # ~~~~
 
 # Authentication pages
-GET		/signup									controllers.web.Auth.startSignUp
-POST	/signup									controllers.web.Auth.handleStartSignUp
-GET		/signup/:token					controllers.web.Auth.signUp(token: String)
-GET		/signin									controllers.web.Auth.signIn
-POST	/authenticate						controllers.web.Auth.authenticate
-GET		/signout								controllers.web.Auth.signOut
-GET		/reset-password					controllers.web.Auth.forgotPassword
-POST	/reset-password					controllers.web.Auth.handleForgotPassword
+GET		/signup					controllers.web.Auth.startSignUp
+POST	/signup					controllers.web.Auth.handleStartSignUp
+GET		/signup/:token			controllers.web.Auth.signUp(token: String)
+GET		/signin					controllers.web.Auth.signIn
+POST	/authenticate			controllers.web.Auth.authenticate
+GET		/signout				controllers.web.Auth.signOut
+GET		/reset-password			controllers.web.Auth.forgotPassword
+POST	/reset-password			controllers.web.Auth.handleForgotPassword
 GET		/reset-password/:token	controllers.web.Auth.resetPassword(token: String)
 POST	/reset-password/:token	controllers.web.Auth.handleResetPassword(token: String)
-GET		/change-password				controllers.web.Auth.changePassword
-POST	/change-password				controllers.web.Auth.handleChangePassword
+GET		/change-password		controllers.web.Auth.changePassword
+POST	/change-password		controllers.web.Auth.handleChangePassword
 
 # Home page
-GET		/												controllers.web.Application.index
-GET		/myaccount							controllers.web.Application.myAccount
+GET		/						controllers.web.Application.index
+GET		/myaccount				controllers.web.Application.myAccount
 
-GET		/lang/$lang<(en|es)>		controllers.web.Application.selectLang(lang: String)
+GET		/lang/$lang<(en|es)>	controllers.web.Application.selectLang(lang: String)
 
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET		/public/*file						controllers.web.Assets.public(path="/public", file: Asset)
-GET		/lib/*file							controllers.web.Assets.lib(path="/public/lib", file: Asset)
-GET		/css/*file							controllers.web.Assets.css(path="/public/stylesheets", file: Asset)
-GET		/js/*file								controllers.web.Assets.js(path="/public/javascripts", file: Asset)
-GET		/img/*file							controllers.web.Assets.img(path="/public/images", file: Asset)
-GET		/common/css/*file				controllers.web.Assets.commonCss(path="/public/lib/common/stylesheets", file: Asset)
-GET		/common/js/*file				controllers.web.Assets.commonJs(path="/public/lib/common/javascripts", file: Asset)
-GET		/common/img/*file				controllers.web.Assets.commonImg(path="/public/lib/common/images", file: Asset)
+GET		/public/*file			controllers.web.Assets.public(path="/public", file: Asset)
+GET		/lib/*file				controllers.web.Assets.lib(path="/public/lib", file: Asset)
+GET		/css/*file				controllers.web.Assets.css(path="/public/stylesheets", file: Asset)
+GET		/js/*file				controllers.web.Assets.js(path="/public/javascripts", file: Asset)
+GET		/img/*file				controllers.web.Assets.img(path="/public/images", file: Asset)
+GET		/common/css/*file		controllers.web.Assets.commonCss(path="/public/lib/common/stylesheets", file: Asset)
+GET		/common/js/*file		controllers.web.Assets.commonJs(path="/public/lib/common/javascripts", file: Asset)
+GET		/common/img/*file		controllers.web.Assets.commonImg(path="/public/lib/common/images", file: Asset)
 
-GET		/rsc/*file							controllers.web.SharedResources.rsc(file: String)
+GET		/rsc/*file				controllers.web.SharedResources.rsc(file: String)
 
 
 ->  / common.Routes

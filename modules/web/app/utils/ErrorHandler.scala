@@ -22,7 +22,7 @@ class ErrorHandler @Inject() (
 
   // 401 - Unauthorized
   override def onNotAuthenticated(implicit request: RequestHeader): Future[Result] = Future.successful {
-    Redirect(routes.Auth.signIn)
+    Redirect(controllers.web.Auth.signIn)
   }
 
   // 403 - Forbidden
@@ -34,7 +34,7 @@ class ErrorHandler @Inject() (
   override def onNotFound(request: RequestHeader, message: String): Future[Result] = Future.successful {
     NotFound(env.mode match {
       case Mode.Prod => views.html.web.errors.notFound(request)(request2Messages(request))
-      case _ => views.html.defaultpages.devNotFound(request.method, request.uri, Some(router.get))
+      case _         => views.html.defaultpages.devNotFound(request.method, request.uri, Some(router.get))
     })
   }
 

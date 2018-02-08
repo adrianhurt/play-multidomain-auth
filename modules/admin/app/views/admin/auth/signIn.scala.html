@@ -1,15 +1,15 @@
-@(signInForm: Form[(String, String, Boolean)])(implicit request: RequestHeader, messages: Messages)
-@import b3.vertical.fieldConstructor
+@(signInForm: Form[(String, String, Boolean)])(implicit request: RequestHeader, messages: MessagesProvider)
+@import b4.vertical.fieldConstructor
 @import controllers.admin.routes
 @default("Sign In") {
 	@tags.alertFromRequest(request, "error")
-	@b3.formCSRF(routes.Auth.authenticate) {
+	@b4.formCSRF(routes.Auth.authenticate) {
 		<fieldset>
 			<legend>@Messages("signin.title")</legend>
-			@b3.text( signInForm("identifier"), '_hiddenLabel -> Messages("field.email"), 'placeholder -> "your@email.com", 'autofocus -> true )
-			@b3.password( signInForm("password"), '_hiddenLabel -> Messages("field.password"), 'placeholder -> Messages("field.password") )
-			@b3.checkbox( signInForm("rememberMe"), '_text -> Messages("signin.rememberme"), 'checked -> true )
-			@b3.submit('class -> "btn btn-primary btn-block"){ @Messages("signin") }
+			@b4.text( signInForm("identifier"), '_hiddenLabel -> Messages("field.email"), 'placeholder -> "your@email.com", 'autofocus -> true )
+			@b4.password( signInForm("password"), '_hiddenLabel -> Messages("field.password"), 'placeholder -> Messages("field.password") )
+			@b4.checkbox( signInForm("rememberMe"), '_text -> Messages("signin.rememberme"), 'checked -> true )
+			@b4.submit('class -> "btn btn-primary btn-block"){ @Messages("signin") }
 			<div class="post-form-opts">
 				<p>@Messages("signin.forgot.question") <a href="@routes.Auth.forgotPassword">@Messages("signin.forgot")</a></p>
 			</div>

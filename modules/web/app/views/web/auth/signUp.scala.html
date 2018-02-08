@@ -1,17 +1,17 @@
 @(signUpForm: Form[User])(implicit request: RequestHeader, messages: Messages)
-@import b3.vertical.fieldConstructor
+@import b4.vertical.fieldConstructor
 @import controllers.web.routes
 @default("Sign Up", tab = "signup") {
 	@tags.alertFromRequest(request, "error")
-	@b3.formCSRF(routes.Auth.handleStartSignUp) {
+	@b4.formCSRF(routes.Auth.handleStartSignUp) {
 		<fieldset>
 			<legend>@Messages("signup.title")</legend>
-			@b3.text(signUpForm("firstName"), '_label -> Messages("field.firstname"), 'placeholder -> "John", 'autofocus -> true )
-			@b3.text(signUpForm("lastName"), '_label -> Messages("field.lastname"), 'placeholder -> "Doe" )
-			@b3.text(signUpForm("nick"), '_label -> Messages("field.nick"), 'placeholder -> "Johny" )
-			@b3.text(signUpForm("email"), '_label -> Messages("field.email"), 'placeholder -> "your@email.com" )
-			@b3.password(signUpForm("password"), '_label -> Messages("field.password"), 'placeholder -> Messages("field.password") )
-			@b3.submit('class -> "btn btn-primary btn-block"){ @Messages("signup") }
+			@b4.text(signUpForm("firstName"), '_label -> Messages("field.firstname"), 'placeholder -> "John", 'autofocus -> true )
+			@b4.text(signUpForm("lastName"), '_label -> Messages("field.lastname"), 'placeholder -> "Doe" )
+			@b4.text(signUpForm("nick"), '_label -> Messages("field.nick"), 'placeholder -> "Johny" )
+			@b4.text(signUpForm("email"), '_label -> Messages("field.email"), 'placeholder -> "your@email.com" )
+			@b4.password(signUpForm("password"), '_label -> Messages("field.password"), 'placeholder -> Messages("field.password") )
+			@b4.submit('class -> "btn btn-primary btn-block"){ @Messages("signup") }
 			<div class="post-form-opts">
 				<p>@Messages("signup.signin.question") <a href="@routes.Auth.signIn">@Messages("signup.signin")</a></p>
 			</div>

@@ -4,18 +4,18 @@ import play.api.mvc.{ RequestHeader, EssentialAction, Action, Results }
 import play.api.routing.Router
 
 class VirtualHostRequestHandler @Inject() (
-  errorHandler: HttpErrorHandler,
-  configuration: HttpConfiguration,
-  filters: HttpFilters,
-  webRouter: web.Routes,
-  adminRouter: admin.Routes
+    errorHandler: HttpErrorHandler,
+    configuration: HttpConfiguration,
+    filters: HttpFilters,
+    webRouter: web.Routes,
+    adminRouter: admin.Routes
 ) extends DefaultHttpRequestHandler(
   webRouter, errorHandler, configuration, filters
 ) {
 
   override def routeRequest(request: RequestHeader) = getSubdomain(request) match {
     case "admin" => adminRouter.routes.lift(rewriteAssets("admin", request))
-    case _ => webRouter.routes.lift(rewriteAssets("web", request))
+    case _       => webRouter.routes.lift(rewriteAssets("web", request))
   }
 
   /*
@@ -34,9 +34,9 @@ class VirtualHostRequestHandler @Inject() (
     request.path match {
       case pub(file) => request.copy(path = s"/lib/$subproject/$file")
       case css(file) => request.copy(path = s"/lib/$subproject/stylesheets/$file")
-      case js(file) => request.copy(path = s"/lib/$subproject/javascripts/$file")
+      case js(file)  => request.copy(path = s"/lib/$subproject/javascripts/$file")
       case img(file) => request.copy(path = s"/lib/$subproject/images/$file")
-      case _ => request
+      case _         => request
     }
   }
 }

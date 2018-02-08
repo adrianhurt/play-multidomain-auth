@@ -16,7 +16,7 @@ class PasswordInfoAdminDAO extends DelegableAuthInfoDAO[PasswordInfo] {
   def find(loginInfo: LoginInfo): Future[Option[PasswordInfo]] =
     Manager.findByEmail(loginInfo).map {
       case Some(manager) => Some(manager.password)
-      case _ => None
+      case _             => None
     }
 
   def remove(loginInfo: LoginInfo): Future[Unit] = Manager.remove(loginInfo)
@@ -24,7 +24,7 @@ class PasswordInfoAdminDAO extends DelegableAuthInfoDAO[PasswordInfo] {
   def save(loginInfo: LoginInfo, authInfo: PasswordInfo): Future[PasswordInfo] =
     find(loginInfo).flatMap {
       case Some(_) => update(loginInfo, authInfo)
-      case None => add(loginInfo, authInfo)
+      case None    => add(loginInfo, authInfo)
     }
 
   def update(loginInfo: LoginInfo, authInfo: PasswordInfo): Future[PasswordInfo] =

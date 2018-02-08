@@ -25,25 +25,25 @@ class ErrorHandler @Inject() (
   // 401 - Unauthorized
   override def onNotAuthenticated(implicit request: RequestHeader) = getSubdomain(request) match {
     case "admin" => adminErrorHandler.onNotAuthenticated(request)
-    case _ => webErrorHandler.onNotAuthenticated(request)
+    case _       => webErrorHandler.onNotAuthenticated(request)
   }
 
   // 403 - Forbidden
   override def onNotAuthorized(implicit request: RequestHeader) = getSubdomain(request) match {
     case "admin" => adminErrorHandler.onNotAuthorized(request)
-    case _ => webErrorHandler.onNotAuthorized(request)
+    case _       => webErrorHandler.onNotAuthorized(request)
   }
 
   // 404 - page not found error
   override def onNotFound(request: RequestHeader, message: String) = getSubdomain(request) match {
     case "admin" => adminErrorHandler.onNotFound(request, message)
-    case _ => webErrorHandler.onNotFound(request, message)
+    case _       => webErrorHandler.onNotFound(request, message)
   }
 
   // 500 - internal server error
   override def onProdServerError(request: RequestHeader, exception: UsefulException) = getSubdomain(request) match {
     case "admin" => adminErrorHandler.onProdServerError(request, exception)
-    case _ => webErrorHandler.onProdServerError(request, exception)
+    case _       => webErrorHandler.onProdServerError(request, exception)
   }
 
 }

@@ -17,8 +17,10 @@ object Common {
     name := theName,
     organization := "com.myweb",
     version := "1.0-SNAPSHOT",
-    scalaVersion := "2.11.7",
-    doc in Compile <<= target.map(_ / "none"),
+    scalaVersion := "2.12.3",
+    // suppress API doc generation
+    sources in (Compile, doc) := Seq.empty,
+    publishArtifact in (Compile, packageDoc) := false,
     scalacOptions ++= Seq("-feature", "-deprecation", "-unchecked", "-language:reflectiveCalls", "-language:postfixOps", "-language:implicitConversions"),
     resolvers ++= Seq(
       "Scalaz Bintray Repo" at "https://dl.bintray.com/scalaz/releases",
@@ -31,13 +33,13 @@ object Common {
   def appSettings (messagesFilesFrom: Seq[String]) = settings(appName) ++: Seq(
     javaOptions += s"-Dconfig.resource=root-dev.conf",
     messagesGenerator in Compile := messagesGenerate(messagesFilesFrom, baseDirectory.value, resourceManaged.value, streams.value.log),
-    resourceGenerators in Compile <+= (messagesGenerator in Compile)
+    resourceGenerators in Compile += (messagesGenerator in Compile)
   )
   // Settings for every module, i.e. for every subproject
   def moduleSettings (module: String) = settings(module) ++: Seq(
     javaOptions += s"-Dconfig.resource=$module-dev.conf",
     sharedConfFilesReplicator in Compile := sharedConfFilesReplicate(baseDirectory.value / ".." / "..", resourceManaged.value, streams.value.log),
-    resourceGenerators in Compile <+= (sharedConfFilesReplicator in Compile)
+    resourceGenerators in Compile += (sharedConfFilesReplicator in Compile)
   )
   // Settings for every service, i.e. for admin and web subprojects
   def serviceSettings (module: String, messagesFilesFrom: Seq[String]) = moduleSettings(module) ++: Seq(
@@ -46,24 +48,31 @@ object Common {
     pipelineStages := Seq(rjs, digest, gzip),
     RjsKeys.mainModule := s"main-$module",
     messagesGenerator in Compile := messagesGenerate(messagesFilesFrom, baseDirectory.value / ".." / "..", resourceManaged.value, streams.value.log),
-    resourceGenerators in Compile <+= (messagesGenerator in Compile)
+    resourceGenerators in Compile += (messagesGenerator in Compile)
   )
 	
   val commonDependencies = Seq(
-    cache,
+    guice,
+    ehcache,
     ws,
     specs2 % Test,
+    filters,
     "org.webjars" % "requirejs" % "2.3.1",
-	  "com.adrianhurt" %% "play-bootstrap" % "1.1-P25-B3",	// Add bootstrap helpers and field constructors (http://adrianhurt.github.io/play-bootstrap/)
-    "com.mohiva" %% "play-silhouette" % "4.0.0",
-    "com.mohiva" %% "play-silhouette-password-bcrypt" % "4.0.0",
-    "com.mohiva" %% "play-silhouette-persistence" % "4.0.0",
-    "com.mohiva" %% "play-silhouette-crypto-jca" % "4.0.0",
-    "com.mohiva" %% "play-silhouette-testkit" % "4.0.0" % "test",
-    "net.codingwell" %% "scala-guice" % "4.0.1",
+    "org.webjars" % "bootstrap" % "4.0.0" exclude("org.webjars", "jquery"),
+    "org.webjars" % "font-awesome" % "4.7.0",
+    "org.webjars" % "bootstrap-datepicker" % "1.4.0" exclude("org.webjars", "bootstrap"),
+    "org.webjars" % "jquery" % "3.2.1",
+	  "com.adrianhurt" %% "play-bootstrap" % "1.2-P26-B4",	// Add bootstrap helpers and field constructors (http://adrianhurt.github.io/play-bootstrap/)
+    "com.mohiva" %% "play-silhouette" % "5.0.0",
+    "com.mohiva" %% "play-silhouette-password-bcrypt" % "5.0.0",
+    "com.mohiva" %% "play-silhouette-persistence" % "5.0.0",
+    "com.mohiva" %% "play-silhouette-crypto-jca" % "5.0.0",
+    "com.mohiva" %% "play-silhouette-testkit" % "5.0.0" % "test",
+    "net.codingwell" %% "scala-guice" % "4.1.1",
     "com.iheart" %% "ficus" % "1.3.2",
-    "com.typesafe.play" %% "play-mailer" % "5.0.0"
-    // Add here more common dependencies:
+    "com.typesafe.play" %% "play-mailer" % "6.0.1",
+    "com.typesafe.play" %% "play-mailer-guice" % "6.0.1"
+  // Add here more common dependencies:
     // jdbc,
     // anorm,
     // ...

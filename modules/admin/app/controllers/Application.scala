@@ -5,14 +5,13 @@ import utils.silhouette._
 import com.mohiva.play.silhouette.api.Silhouette
 import play.api._
 import play.api.mvc._
-import play.api.Play.current
 import play.api.i18n.{ MessagesApi, Messages, Lang }
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits._
 import javax.inject.{ Inject, Singleton }
 
 @Singleton
-class Application @Inject() (val silhouette: Silhouette[MyEnv[Manager]], val messagesApi: MessagesApi) extends AdminController {
+class Application @Inject() (val silhouette: Silhouette[MyEnv[Manager]]) extends AdminController {
 
   def index = SecuredAction { implicit request =>
     Ok(views.html.admin.index())
