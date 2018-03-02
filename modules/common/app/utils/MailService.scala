@@ -11,11 +11,11 @@ import scala.concurrent.duration._
 import javax.inject.{ Singleton, Inject }
 
 @Singleton
-class MailService @Inject() (mailerClient: MailerClient, system: ActorSystem, conf: Configuration) {
-
+class MailService @Inject() (implicit executionContext: MailServiceExecutionContext, mailerClient: MailerClient, system: ActorSystem, conf: Configuration) {
   lazy val from = conf.underlying.as[String]("play.mailer.from")
 
   def sendEmailAsync(recipients: String*)(subject: String, bodyHtml: String, bodyText: String) = {
+
     system.scheduler.scheduleOnce(100 milliseconds) {
       sendEmail(recipients: _*)(subject, bodyHtml, bodyText)
     }

@@ -7,8 +7,9 @@ import play.api.mvc._
 import play.api.mvc.Results._
 import play.api.i18n.{ I18nSupport, MessagesApi }
 import play.api.routing.Router
+
 import scala.concurrent.Future
-import javax.inject.{ Singleton, Inject, Provider }
+import javax.inject.{ Inject, Provider, Singleton }
 //import controllers.admin.routes
 
 @Singleton
@@ -22,8 +23,10 @@ class ErrorHandler @Inject() (
 
   // 401 - Unauthorized
   override def onNotAuthenticated(implicit request: RequestHeader): Future[Result] = Future.successful {
-    router.get().documentation
-    Redirect(routes.Auth.signIn) //   admin.Auth.signIn)
+    // TODO: fix this so that we redirect to the signIn Action
+    Redirect(controllers.admin.Auth.signIn)
+    //Redirect("/")
+    //Redirect(controllers.admin.routes.Auth.signIn) //   admin.Auth.signIn)
   }
 
   // 403 - Forbidden

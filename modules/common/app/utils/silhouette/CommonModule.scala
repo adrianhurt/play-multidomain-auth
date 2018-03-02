@@ -16,6 +16,7 @@ import net.ceedubs.ficus.readers.ArbitraryTypeReader._
 import play.api.Configuration
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.mvc.CookieHeaderEncoding
+import utils.MailServiceExecutionContext
 
 /**
  * The Guice module which wires all Silhouette dependencies.
@@ -26,11 +27,26 @@ class CommonSilhouetteModule extends AbstractModule with ScalaModule {
    * Configures the module.
    */
   def configure() {
-    bind[IDGenerator].toInstance(new SecureRandomIDGenerator())
+    // execution contexts
+    bind[MailServiceExecutionContext].to(classOf[MailServiceExecutionContext]).asEagerSingleton()
+    bind[AuthenticationExecutionContext].to(classOf[AuthenticationExecutionContext]).asEagerSingleton()
+
+    //bind[IDGenerator].toInstance(new SecureRandomIDGenerator())
     bind[PasswordHasher].toInstance(new BCryptPasswordHasher())
     bind[FingerprintGenerator].toInstance(new DefaultFingerprintGenerator(false))
     bind[EventBus].toInstance(EventBus())
     bind[Clock].toInstance(Clock())
+  }
+
+  /**
+   * Provides the secure random ID generator using its own execution context.
+   * See https://www.playframework.com/documentation/2.6.x/Migration26#play.api.libs.concurrent.Execution-is-deprecated.
+   *
+   * @param executionContext The execution context
+   * @return The secure random ID generator
+   */
+  def providesSecureRandomIDGenerator(executionContext: AuthenticationExecutionContext): SecureRandomIDGenerator = {
+    new SecureRandomIDGenerator()(executionContext)
   }
 
   /**
@@ -76,11 +92,12 @@ class CommonSilhouetteModule extends AbstractModule with ScalaModule {
     fingerprintGenerator: FingerprintGenerator,
     idGenerator: IDGenerator,
     configuration: Configuration,
-    clock: Clock
+    clock: Clock,
+    ec: AuthenticationExecutionContext
   ): AuthenticatorService[CookieAuthenticator] = {
     val config = configuration.underlying.as[CookieAuthenticatorSettings]("silhouette.authenticator")
     val authenticatorEncoder = new CrypterAuthenticatorEncoder(crypter)
-    new CookieAuthenticatorService(config, None, signer, cookieHeaderEncoding, authenticatorEncoder, fingerprintGenerator, idGenerator, clock)
+    new CookieAuthenticatorService(config, None, signer, cookieHeaderEncoding, authenticatorEncoder, fingerprintGenerator, idGenerator, clock)(ec)
   }
 
   /**

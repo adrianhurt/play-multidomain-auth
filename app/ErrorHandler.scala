@@ -45,7 +45,6 @@ class ErrorHandler @Inject() (
     case "admin" => adminErrorHandler.onProdServerError(request, exception)
     case _       => webErrorHandler.onProdServerError(request, exception)
   }
-
 }
 
 /**
