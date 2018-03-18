@@ -1,16 +1,15 @@
 package admin
 
+import controllers.admin.routes
 import play.api.http.DefaultHttpErrorHandler
 import com.mohiva.play.silhouette.api.actions.{ SecuredErrorHandler, UnsecuredErrorHandler }
 import play.api._
 import play.api.mvc._
 import play.api.mvc.Results._
-import play.api.i18n.{ I18nSupport, MessagesApi }
+import play.api.i18n.{ I18nSupport, MessagesApi, Messages }
 import play.api.routing.Router
-
 import scala.concurrent.Future
-import javax.inject.{ Inject, Provider, Singleton }
-//import controllers.admin.routes
+import javax.inject.{ Singleton, Inject, Provider }
 
 @Singleton
 class ErrorHandler @Inject() (
@@ -24,9 +23,7 @@ class ErrorHandler @Inject() (
   // 401 - Unauthorized
   override def onNotAuthenticated(implicit request: RequestHeader): Future[Result] = Future.successful {
     // TODO: fix this so that we redirect to the signIn Action
-    Redirect(controllers.admin.Auth.signIn)
-    //Redirect("/")
-    //Redirect(controllers.admin.routes.Auth.signIn) //   admin.Auth.signIn)
+    Redirect(routes.Auth.signIn)
   }
 
   // 403 - Forbidden

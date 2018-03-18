@@ -14,7 +14,7 @@ import models.User
 import net.ceedubs.ficus.Ficus._
 import net.ceedubs.ficus.readers.ArbitraryTypeReader._
 import play.api.Configuration
-import play.api.libs.concurrent.Execution.Implicits._
+//import play.api.libs.concurrent.Execution.Implicits._
 import play.api.mvc.CookieHeaderEncoding
 import utils.MailServiceExecutionContext
 
@@ -28,10 +28,10 @@ class CommonSilhouetteModule extends AbstractModule with ScalaModule {
    */
   def configure() {
     // execution contexts
-    bind[MailServiceExecutionContext].to(classOf[MailServiceExecutionContext]).asEagerSingleton()
-    bind[AuthenticationExecutionContext].to(classOf[AuthenticationExecutionContext]).asEagerSingleton()
+    //bind[MailServiceExecutionContext].toInstance(new MailServiceExecutionContext).asEagerSingleton()
+    //bind[AuthenticationExecutionContext].to(classOf[AuthenticationExecutionContext]).asEagerSingleton()
 
-    //bind[IDGenerator].toInstance(new SecureRandomIDGenerator())
+    bind[IDGenerator].to(classOf[SecureRandomIDGenerator]).asEagerSingleton()
     bind[PasswordHasher].toInstance(new BCryptPasswordHasher())
     bind[FingerprintGenerator].toInstance(new DefaultFingerprintGenerator(false))
     bind[EventBus].toInstance(EventBus())
@@ -45,7 +45,8 @@ class CommonSilhouetteModule extends AbstractModule with ScalaModule {
    * @param executionContext The execution context
    * @return The secure random ID generator
    */
-  def providesSecureRandomIDGenerator(executionContext: AuthenticationExecutionContext): SecureRandomIDGenerator = {
+  @Provides
+  def provideSecureRandomIDGenerator(executionContext: AuthenticationExecutionContext): SecureRandomIDGenerator = {
     new SecureRandomIDGenerator()(executionContext)
   }
 

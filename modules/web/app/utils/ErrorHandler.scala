@@ -2,14 +2,15 @@ package web
 
 import play.api.http.DefaultHttpErrorHandler
 import com.mohiva.play.silhouette.api.actions.{ SecuredErrorHandler, UnsecuredErrorHandler }
+import controllers.web.routes
 import play.api._
 import play.api.mvc._
 import play.api.mvc.Results._
-import play.api.i18n.{ I18nSupport, MessagesApi, Messages }
+import play.api.i18n.{ I18nSupport, Messages, MessagesApi }
 import play.api.routing.Router
+
 import scala.concurrent.Future
-import javax.inject.{ Singleton, Inject, Provider }
-import controllers.web.routes
+import javax.inject.{ Inject, Provider, Singleton }
 
 @Singleton
 class ErrorHandler @Inject() (
@@ -22,7 +23,7 @@ class ErrorHandler @Inject() (
 
   // 401 - Unauthorized
   override def onNotAuthenticated(implicit request: RequestHeader): Future[Result] = Future.successful {
-    Redirect(controllers.web.Auth.signIn)
+    Redirect(routes.Auth.signIn)
   }
 
   // 403 - Forbidden

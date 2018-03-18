@@ -16,7 +16,8 @@ import models.{ Manager, MailTokenManager }
 import net.ceedubs.ficus.Ficus._
 import net.ceedubs.ficus.readers.ArbitraryTypeReader._
 import play.api.Configuration
-import play.api.libs.concurrent.Execution.Implicits._
+//import play.api.libs.concurrent.Execution.Implicits._
+//import utils.silhouette.AuthenticationExecutionContext
 
 /**
  * The Guice module which wires all Silhouette dependencies.
@@ -44,9 +45,9 @@ class AdminSilhouetteModule extends AbstractModule with ScalaModule {
   def provideEnvironment(
     managerService: ManagerService,
     authenticatorService: AuthenticatorService[CookieAuthenticator],
-    eventBus: EventBus
-  ): Environment[MyEnv[Manager]] = {
-    Environment[MyEnv[Manager]](managerService, authenticatorService, Seq(), eventBus)
+    eventBus: EventBus,
+    ec: AuthenticationExecutionContext): Environment[MyEnv[Manager]] = {
+    Environment[MyEnv[Manager]](managerService, authenticatorService, Seq(), eventBus)(ec)
   }
 
   /**
@@ -65,9 +66,9 @@ class AdminSilhouetteModule extends AbstractModule with ScalaModule {
    */
   @Provides @Named("admin-auth-info-repository")
   def provideAuthInfoRepository(
-    @Named("admin-pwd-info-dao") passwordInfoDAO: DelegableAuthInfoDAO[PasswordInfo]
-  ): AuthInfoRepository = {
-    new DelegableAuthInfoRepository(passwordInfoDAO)
+    @Named("admin-pwd-info-dao") passwordInfoDAO: DelegableAuthInfoDAO[PasswordInfo],
+    ec: AuthenticationExecutionContext): AuthInfoRepository = {
+    new DelegableAuthInfoRepository(passwordInfoDAO)(ec)
   }
 
   /**
@@ -80,9 +81,9 @@ class AdminSilhouetteModule extends AbstractModule with ScalaModule {
   @Provides @Named("admin-credentials-provider")
   def provideCredentialsProvider(
     @Named("admin-auth-info-repository") authInfoRepository: AuthInfoRepository,
-    passwordHasherRegistry: PasswordHasherRegistry
-  ): CredentialsProvider = {
-    new CredentialsProvider(authInfoRepository, passwordHasherRegistry)
+    passwordHasherRegistry: PasswordHasherRegistry,
+    ec: AuthenticationExecutionContext): CredentialsProvider = {
+    new CredentialsProvider(authInfoRepository, passwordHasherRegistry)(ec)
   }
 }
 

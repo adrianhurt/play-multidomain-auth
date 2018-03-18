@@ -12,8 +12,6 @@ import com.typesafe.config._
 object Common {
   def appName = "play-multidomain-auth"
 
-  val akkaVersion = "2.5.6"
-
   // Common settings for every project
   def settings(theName: String) = Seq(
     name := theName,
@@ -21,23 +19,15 @@ object Common {
     version := "1.0-SNAPSHOT",
     scalaVersion := "2.12.3",
     // suppress API doc generation
-    //sources in (Compile, doc) := Seq.empty,
-    //publishArtifact in (Compile, packageDoc) := false,
-    //scalacOptions ++= Seq("-feature", "-deprecation", "-unchecked", "-language:reflectiveCalls", "-language:postfixOps", "-language:implicitConversions"),
+    sources in (Compile, doc) := Seq.empty,
+    publishArtifact in (Compile, packageDoc) := false,
+    scalacOptions ++= Seq("-feature", "-deprecation", "-unchecked", "-language:reflectiveCalls", "-language:postfixOps", "-language:implicitConversions"),
     resolvers ++= Seq(
       "Scalaz Bintray Repo" at "https://dl.bintray.com/scalaz/releases",
       "Atlassian Releases" at "https://maven.atlassian.com/public/",
       Resolver.jcenterRepo,
       Resolver.sonatypeRepo("snapshots")
-    ),
-    // see https://github.com/playframework/playframework/issues/7832
-    dependencyOverrides ++= Seq(
-      "com.typesafe.akka" %% "akka-actor" % akkaVersion,
-      "com.typesafe.akka" %% "akka-stream" % akkaVersion,
-      "com.google.guava" % "guava" % "22.0",
-      "org.slf4j" % "slf4j-api" % "1.7.25"
     )
-
   )
 
   // Settings for the app, i.e. the root project

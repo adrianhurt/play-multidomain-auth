@@ -11,9 +11,10 @@ import com.mohiva.play.silhouette.impl.providers.CredentialsProvider
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import com.mohiva.play.silhouette.impl.exceptions.{ IdentityNotFoundException, InvalidPasswordException }
 import com.mohiva.play.silhouette.api.Authenticator.Implicits._
+import com.typesafe.config.Config
 import play.api._
 import play.api.mvc._
-import play.api.Play.current
+//import play.api.Play.current
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.validation.Constraints._
@@ -30,14 +31,13 @@ import views.html.web.{ auth => viewsAuth }
 @Singleton
 class Auth @Inject() (
     val silhouette: Silhouette[MyEnv[User]],
-    val messagesApi: MessagesApi,
     userService: UserService,
     @Named("web-auth-info-repository") authInfoRepository: AuthInfoRepository,
     @Named("web-credentials-provider") credentialsProvider: CredentialsProvider,
     tokenService: MailTokenService[MailTokenUser],
     passwordHasherRegistry: PasswordHasherRegistry,
     mailer: Mailer,
-    conf: Configuration,
+    conf: Config,
     clock: Clock
 ) extends WebController {
 
@@ -189,7 +189,7 @@ class Auth @Inject() (
       authenticator
   }
   private lazy val rememberMeParams: (FiniteDuration, Option[FiniteDuration], Option[FiniteDuration]) = {
-    val cfg = conf.getConfig("silhouette.authenticator.rememberMe").get.underlying
+    val cfg = conf.getConfig("silhouette.authenticator.rememberMe")
     (
       cfg.as[FiniteDuration]("authenticatorExpiry"),
       cfg.getAs[FiniteDuration]("authenticatorIdleTimeout"),

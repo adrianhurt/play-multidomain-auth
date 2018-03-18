@@ -3,8 +3,8 @@
 @import controllers.admin.routes
 
 @views.html.admin.templates.default(title = "My account", tab = "myaccount") {
-	
-	@tags.alertFromRequest(request, "success")
+
+	@views.html.tags.alertFromRequest(request, "success")
 	
 	<h1>@Messages("admin.myaccount.title") <a class="btn btn-default btn-sm pull-right" href="@routes.Auth.changePassword">@Messages("changepass")</a></h1>
 	

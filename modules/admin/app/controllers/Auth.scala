@@ -11,6 +11,7 @@ import com.mohiva.play.silhouette.impl.providers.CredentialsProvider
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import com.mohiva.play.silhouette.impl.exceptions.{ IdentityNotFoundException, InvalidPasswordException }
 import com.mohiva.play.silhouette.api.Authenticator.Implicits._
+import com.typesafe.config.Config
 import play.api._
 import play.api.mvc._
 import play.api.Play.current
@@ -31,7 +32,6 @@ import views.html.admin.{ auth => viewsAuth }
 
 @Singleton
 class Auth @Inject() (
-    val controllerComponents: ControllerComponents,
     val silhouette: Silhouette[MyEnv[Manager]],
     managerService: ManagerService,
     @Named("admin-auth-info-repository") authInfoRepository: AuthInfoRepository,
@@ -39,7 +39,7 @@ class Auth @Inject() (
     tokenService: MailTokenService[MailTokenManager],
     passwordHasherRegistry: PasswordHasherRegistry,
     mailer: Mailer,
-    conf: Configuration,
+    conf: Config,
     clock: Clock
 ) extends AdminController with I18nSupport {
 
@@ -105,7 +105,7 @@ class Auth @Inject() (
       authenticator
   }
   private lazy val rememberMeParams: (FiniteDuration, Option[FiniteDuration], Option[FiniteDuration]) = {
-    val cfg = conf.getConfig("silhouette.authenticator.rememberMe").get.underlying
+    val cfg = conf.getConfig("silhouette.authenticator.rememberMe")
     (
       cfg.as[FiniteDuration]("authenticatorExpiry"),
       cfg.getAs[FiniteDuration]("authenticatorIdleTimeout"),
