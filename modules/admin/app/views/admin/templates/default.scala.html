@@ -1,4 +1,4 @@
-@(title: String, tab: String = "", styles: Html = Html(""), scripts: Html = Html(""), modals: Html = Html(""))(content: Html)(implicit loggedManager: Manager, messages: Messages)
+@(title: String, tab: String = "", styles: Html = Html(""), scripts: Html = Html(""), modals: Html = Html(""))(content: Html)(implicit loggedManager: Manager, messages: MessagesProvider)
 
 @import views.html.admin.tags.auth._
 @import controllers.admin.routes
@@ -22,7 +22,7 @@
 	</ul>
 	<ul class="nav navbar-nav navbar-right">
 		<li class="navbar-text">@Html(Messages("admin.topbar.hello", s"""<span class="text-success">${loggedManager.firstName}</span>""", s"""<span class="text-info">${loggedManager.roles.mkString(", ")}</span>"""))</li>
-		@if(messages.lang.code == "en") {
+		@if(messages.messages.lang.code == "en") {
 			<li><a href="@routes.Application.selectLang("es")">Español</a></li>
 		} else {
 			<li><a href="@routes.Application.selectLang("en")">English</a></li>

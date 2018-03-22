@@ -2,14 +2,15 @@ package web
 
 import play.api.http.DefaultHttpErrorHandler
 import com.mohiva.play.silhouette.api.actions.{ SecuredErrorHandler, UnsecuredErrorHandler }
+import controllers.web.routes
 import play.api._
 import play.api.mvc._
 import play.api.mvc.Results._
-import play.api.i18n.{ I18nSupport, MessagesApi, Messages }
+import play.api.i18n.{ I18nSupport, Messages, MessagesApi }
 import play.api.routing.Router
+
 import scala.concurrent.Future
-import javax.inject.{ Singleton, Inject, Provider }
-import controllers.web.routes
+import javax.inject.{ Inject, Provider, Singleton }
 
 @Singleton
 class ErrorHandler @Inject() (
@@ -34,7 +35,7 @@ class ErrorHandler @Inject() (
   override def onNotFound(request: RequestHeader, message: String): Future[Result] = Future.successful {
     NotFound(env.mode match {
       case Mode.Prod => views.html.web.errors.notFound(request)(request2Messages(request))
-      case _ => views.html.defaultpages.devNotFound(request.method, request.uri, Some(router.get))
+      case _         => views.html.defaultpages.devNotFound(request.method, request.uri, Some(router.get))
     })
   }
 

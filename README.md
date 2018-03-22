@@ -1,4 +1,6 @@
-## Multidomain Auth [Play 2.5 - Scala]
+## Multidomain Auth [Play 2.6 - Scala]
+
+__Note:__ This is just a quick migration of adrianhurt's play-multidomain-auth to Play 2.6 and sbt 1.0. The rest - including these docs - is unchanged.
 
 This is a second part of [Multidomain Seed](https://github.com/adrianhurt/play-multidomain-seed) project mixed with [Silhouette Credentials Seed](https://github.com/adrianhurt/play-silhouette-credentials-seed). Please check them for detailed explanations.
 

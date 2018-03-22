@@ -1,5 +1,6 @@
 package admin
 
+import controllers.admin.routes
 import play.api.http.DefaultHttpErrorHandler
 import com.mohiva.play.silhouette.api.actions.{ SecuredErrorHandler, UnsecuredErrorHandler }
 import play.api._
@@ -9,7 +10,6 @@ import play.api.i18n.{ I18nSupport, MessagesApi, Messages }
 import play.api.routing.Router
 import scala.concurrent.Future
 import javax.inject.{ Singleton, Inject, Provider }
-import controllers.admin.routes
 
 @Singleton
 class ErrorHandler @Inject() (
@@ -22,6 +22,7 @@ class ErrorHandler @Inject() (
 
   // 401 - Unauthorized
   override def onNotAuthenticated(implicit request: RequestHeader): Future[Result] = Future.successful {
+    // TODO: fix this so that we redirect to the signIn Action
     Redirect(routes.Auth.signIn)
   }
 
@@ -34,7 +35,7 @@ class ErrorHandler @Inject() (
   override def onNotFound(request: RequestHeader, message: String): Future[Result] = Future.successful {
     NotFound(env.mode match {
       case Mode.Prod => views.html.admin.errors.notFound(request)(request2Messages(request))
-      case _ => views.html.defaultpages.devNotFound(request.method, request.uri, Some(router.get))
+      case _         => views.html.defaultpages.devNotFound(request.method, request.uri, Some(router.get))
     })
   }
 

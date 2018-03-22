@@ -44,9 +44,9 @@ class WebSilhouetteModule extends AbstractModule with ScalaModule {
   def provideEnvironment(
     userService: UserService,
     authenticatorService: AuthenticatorService[CookieAuthenticator],
-    eventBus: EventBus
-  ): Environment[MyEnv[User]] = {
-    Environment[MyEnv[User]](userService, authenticatorService, Seq(), eventBus)
+    eventBus: EventBus,
+    ec: AuthenticationExecutionContext): Environment[MyEnv[User]] = {
+    Environment[MyEnv[User]](userService, authenticatorService, Seq(), eventBus)(ec)
   }
 
   /**
@@ -65,9 +65,9 @@ class WebSilhouetteModule extends AbstractModule with ScalaModule {
    */
   @Provides @Named("web-auth-info-repository")
   def provideAuthInfoRepository(
-    @Named("web-pwd-info-dao") passwordInfoDAO: DelegableAuthInfoDAO[PasswordInfo]
-  ): AuthInfoRepository = {
-    new DelegableAuthInfoRepository(passwordInfoDAO)
+    @Named("web-pwd-info-dao") passwordInfoDAO: DelegableAuthInfoDAO[PasswordInfo],
+    ec: AuthenticationExecutionContext): AuthInfoRepository = {
+    new DelegableAuthInfoRepository(passwordInfoDAO)(ec)
   }
 
   /**
@@ -80,9 +80,9 @@ class WebSilhouetteModule extends AbstractModule with ScalaModule {
   @Provides @Named("web-credentials-provider")
   def provideCredentialsProvider(
     @Named("web-auth-info-repository") authInfoRepository: AuthInfoRepository,
-    passwordHasherRegistry: PasswordHasherRegistry
-  ): CredentialsProvider = {
-    new CredentialsProvider(authInfoRepository, passwordHasherRegistry)
+    passwordHasherRegistry: PasswordHasherRegistry,
+    ec: AuthenticationExecutionContext): CredentialsProvider = {
+    new CredentialsProvider(authInfoRepository, passwordHasherRegistry)(ec)
   }
 }
 

@@ -11,9 +11,10 @@ import com.mohiva.play.silhouette.impl.providers.CredentialsProvider
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import com.mohiva.play.silhouette.impl.exceptions.{ IdentityNotFoundException, InvalidPasswordException }
 import com.mohiva.play.silhouette.api.Authenticator.Implicits._
+import com.typesafe.config.Config
 import play.api._
 import play.api.mvc._
-import play.api.Play.current
+//import play.api.Play.current
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.validation.Constraints._
@@ -30,14 +31,13 @@ import views.html.web.{ auth => viewsAuth }
 @Singleton
 class Auth @Inject() (
     val silhouette: Silhouette[MyEnv[User]],
-    val messagesApi: MessagesApi,
     userService: UserService,
     @Named("web-auth-info-repository") authInfoRepository: AuthInfoRepository,
     @Named("web-credentials-provider") credentialsProvider: CredentialsProvider,
     tokenService: MailTokenService[MailTokenUser],
     passwordHasherRegistry: PasswordHasherRegistry,
     mailer: Mailer,
-    conf: Configuration,
+    conf: Config,
     clock: Clock
 ) extends WebController {
 
@@ -46,7 +46,7 @@ class Auth @Inject() (
   val passwordValidation = nonEmptyText(minLength = 6)
   def notFoundDefault(implicit request: RequestHeader) = Future.successful(NotFound(views.html.web.errors.notFound(request)))
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // SIGN UP
 
   val signUpForm = Form(
@@ -67,7 +67,7 @@ class Auth @Inject() (
   def startSignUp = UserAwareAction { implicit request =>
     request.identity match {
       case Some(_) => Redirect(routes.Application.index)
-      case None => Ok(viewsAuth.signUp(signUpForm))
+      case None    => Ok(viewsAuth.signUp(signUpForm))
     }
   }
 
@@ -147,7 +147,7 @@ class Auth @Inject() (
   def signIn = UserAwareAction { implicit request =>
     request.identity match {
       case Some(_) => Redirect(routes.Application.index)
-      case None => Ok(viewsAuth.signIn(signInForm))
+      case None    => Ok(viewsAuth.signIn(signInForm))
     }
   }
 
@@ -189,7 +189,7 @@ class Auth @Inject() (
       authenticator
   }
   private lazy val rememberMeParams: (FiniteDuration, Option[FiniteDuration], Option[FiniteDuration]) = {
-    val cfg = conf.getConfig("silhouette.authenticator.rememberMe").get.underlying
+    val cfg = conf.getConfig("silhouette.authenticator.rememberMe")
     (
       cfg.as[FiniteDuration]("authenticatorExpiry"),
       cfg.getAs[FiniteDuration]("authenticatorIdleTimeout"),
@@ -219,7 +219,7 @@ class Auth @Inject() (
   def forgotPassword = UserAwareAction { implicit request =>
     request.identity match {
       case Some(_) => Redirect(routes.Application.index)
-      case None => Ok(viewsAuth.forgotPassword(emailForm))
+      case None    => Ok(viewsAuth.forgotPassword(emailForm))
     }
   }
 
@@ -227,6 +227,8 @@ class Auth @Inject() (
    * Sends an email to the user with a link to reset the password
    */
   def handleForgotPassword = UnsecuredAction.async { implicit request =>
+    // that's pretty awkward, but I was unable to grok Play 2.6's i18n docs
+    val messages = request.messages(messagesApi).messages
     emailForm.bindFromRequest.fold(
       formWithErrors => Future.successful(BadRequest(viewsAuth.forgotPassword(formWithErrors))),
       email => userService.retrieve(email).flatMap {
@@ -237,15 +239,15 @@ class Auth @Inject() (
             Ok(viewsAuth.forgotPasswordSent(email))
           }
         }
-        case None => Future.successful(BadRequest(viewsAuth.forgotPassword(emailForm.withError("email", Messages("web.auth.user.notexists")))))
+        case None => Future.successful(BadRequest(viewsAuth.forgotPassword(emailForm.withError("email", messages("web.auth.user.notexists")))))
       }
     )
   }
 
-  val resetPasswordForm = Form(tuple(
+  def resetPasswordForm(implicit messages: Messages) = Form(tuple(
     "password1" -> passwordValidation,
     "password2" -> nonEmptyText
-  ) verifying (Messages("auth.passwords.notequal"), passwords => passwords._2 == passwords._1))
+  ) verifying (messagesApi("auth.passwords.notequal")(messages.lang), passwords => passwords._2 == passwords._1))
 
   /**
    * Confirms the user's link based on the token and shows him a form to reset the password
@@ -301,11 +303,11 @@ class Auth @Inject() (
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // CHANGE PASSWORD
 
-  val changePasswordForm = Form(tuple(
+  def changePasswordForm(implicit messages: Messages) = Form(tuple(
     "current" -> nonEmptyText,
     "password1" -> passwordValidation,
     "password2" -> nonEmptyText
-  ) verifying (Messages("auth.passwords.notequal"), passwords => passwords._3 == passwords._2))
+  ) verifying (messages("auth.passwords.notequal"), passwords => passwords._3 == passwords._2))
 
   /**
    * Starts the change password mechanism. It shows a form to insert his current password and the new one.
