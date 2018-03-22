@@ -1,5 +1,5 @@
 @(signInForm: Form[(String, String, Boolean)])(implicit request: RequestHeader, messages: MessagesProvider)
-@import b4.vertical.fieldConstructor
+@implicitFieldConstructor = @{ b4.vertical.fieldConstructor() }
 @import controllers.admin.routes
 @default("Sign In") {
 	@tags.alertFromRequest(request, "error")

@@ -61,11 +61,11 @@ object Common {
     specs2 % Test,
     filters,
     "org.webjars" % "requirejs" % "2.3.1",
-    "org.webjars" % "bootstrap" % "4.0.0" exclude("org.webjars", "jquery"),
+    "com.adrianhurt" %% "play-bootstrap" % "1.4-P26-B4-SNAPSHOT", // Add bootstrap helpers and field constructors (http://adrianhurt.github.io/play-bootstrap/)
+    "org.webjars" % "bootstrap" % "4.0.0-1" exclude("org.webjars", "jquery"),
+    "org.webjars" % "jquery" % "3.3.1-1",
     "org.webjars" % "font-awesome" % "4.7.0",
     "org.webjars" % "bootstrap-datepicker" % "1.4.0" exclude("org.webjars", "bootstrap"),
-    "org.webjars" % "jquery" % "3.2.1",
-    "com.adrianhurt" %% "play-bootstrap" % "1.2-P26-B4", // Add bootstrap helpers and field constructors (http://adrianhurt.github.io/play-bootstrap/)
     "com.mohiva" %% "play-silhouette" % "5.0.0",
     "com.mohiva" %% "play-silhouette-password-bcrypt" % "5.0.0",
     "com.mohiva" %% "play-silhouette-persistence" % "5.0.0",
